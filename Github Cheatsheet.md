@@ -50,7 +50,6 @@ Say you just did `Bringing Code in from Github`. You updated a branch called `st
 2. Pull in the changes from the other branch `git merge <branch we want to pull from>`
 
 Following these steps, the example would look like:
-
 ```
 > git checkout anthony/example
 > git merge staging
