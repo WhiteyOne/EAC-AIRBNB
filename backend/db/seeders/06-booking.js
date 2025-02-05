@@ -1,5 +1,6 @@
 'use strict';
 console.log(1);
+
 const { Booking } = require('../models');
 const bcrypt = require("bcryptjs");
 console.log(2);
@@ -11,11 +12,11 @@ console.log(3);
 module.exports = {
   async up (queryInterface, Sequelize) {
     await Booking.bulkCreate([
-      // {
-      //   spotId:1,
-      //   startDate: 2025-2-1,
-      //   endDate: 2025-2-5
-      // },
+      {
+        spotId:1,
+        startDate: new Date(),
+        endDate: new Date()
+      },
     //   {
     //     startDate: "2025-10-12",
     //     endDate: "2026-10-12"
