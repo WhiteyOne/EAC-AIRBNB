@@ -55,7 +55,7 @@ module.exports = {
         type: Sequelize.DECIMAL,
         allowNull: false
       },
-      previewImage {
+      previewImage: {
         type: Sequelize.STRING,
         allowNull: false
       },
