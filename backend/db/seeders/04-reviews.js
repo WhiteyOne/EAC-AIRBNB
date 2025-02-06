@@ -10,28 +10,16 @@ if (process.env.NODE_ENV === 'production') {
 console.log(3);
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await SpotImage.bulkCreate([
+    await Review.bulkCreate([
       {
         spotId: 1,
-        url: "images.com",
-      },
-      {
-        spotId: 2,
-        url: "dog.com",
-      },
-      {
-        spotId: 3,
-        url: "youtube.com",
-      },
-      {
-        spotId: 2,
-        url: "google.com",
+        url:
       }
     ], { validate: true });
   },
 
   async down (queryInterface, Sequelize) {
-    options.tableName = 'SpotImages';
+    options.tableName = 'Reviews';
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
       // name: { [Op.in]: ['Airbnb Name', 'Airbnb Second Name', 'Airbnb Third Name'] }
