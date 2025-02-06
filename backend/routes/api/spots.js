@@ -69,15 +69,19 @@ router.get('/:spotid', async (req, res, next) => {
 });
 
 router.get('/:spotid/reviews', async (req, res, next) => {
-    const spotId = req.params.id;
-    const spot = await Spot.findByPk(spotId);
-    const reviews = await Review.findAll({
+    try {
+        const spotId = req.params.id;
+        const spot = await Spot.findByPk(spotId);
+        const reviews = await Review.findAll({
         where: 
     {
         id: spotId
     },
     })
     return res.json(reviews);
+    } catch (error) {
+        next(error)
+    }
 });
 
 // Spot POST Method 

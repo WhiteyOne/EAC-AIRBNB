@@ -15,8 +15,8 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: 'cascade',
         hooks: true
       })
-    }
-  }
+    };
+  };
   SpotImage.init({
     spotId: {
       type: DataTypes.INTEGER,

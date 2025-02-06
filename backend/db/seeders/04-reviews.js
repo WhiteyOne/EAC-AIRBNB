@@ -13,7 +13,7 @@ module.exports = {
     await Review.bulkCreate([
       {
         spotId: 1,
-        url:
+        
       }
     ], { validate: true });
   },
