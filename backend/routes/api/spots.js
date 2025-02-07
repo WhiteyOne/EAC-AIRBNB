@@ -16,9 +16,15 @@ const router = express.Router();
 // Spot GET Method 
 router.get('/', async (req, res, next) => {
     try {
-        const spots = await Spot.findAll({});
+        const spots = await Spot.findAll({
+            include: {
+                model: SpotImage,
+                where:{
+                    preview:true
+                }
+            }
+        });
         if (spots) {
-            console.log('here');
             return res.json(spots);
             
         } else {
@@ -48,8 +54,8 @@ router.get('/current', async (req, res, next) => {
 });
 router.get('/:spotid', async (req, res, next) => {
     try {
-        const spotId = req.params.id;
-
+        const spotId = await req.params;
+        console.log(spot)
         const spot = await Spot.findByPk(spotId);
 
         if(spot){
@@ -63,10 +69,7 @@ router.get('/:spotid/reviews', async (req, res, next) => {
     const spotId = req.params.id;
     const spot = await Spot.findByPk(spotId);
     const reviews = await Review.findAll({
-        where: 
-    {
-        id: spotId
-    },
+      
     })
     return res.json(reviews);
 });
@@ -90,18 +93,11 @@ router.post('/', async (req, res, next) => {
 });
 router.post('/:spotId/images', async (req, res, next) => {
     try {
-        const spot = req.params.id;
-        const {spotId, url, preview} =req.body
-        // const spotImages = await SpotImage.findAll({
-        //     where:{
-        //         spotId: spotId
-        //     }
-        // })
-        if(spotId <= 0 || !url || preview === undefined){
-            throw new Error("that your URL is correct or that sp")
-        }
-        const newImage =  await spotImage.create({spotId:spot, url, preview})
-        return res.json(newImage)
+        const spotId = req.params;
+
+        
+        return res.json(spotId)
+      
     } catch (error) {
         next(error)
     }
