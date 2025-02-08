@@ -10,18 +10,35 @@ const { handleValidationErrors } = require('../../utils/validation');
 const { Spot } = require('../../db/models');
 const { User } = require('../../db/models');
 const { Review } = require('../../db/models');
-const { SpotImage, ReviewImage }= require('../../db/models');
+const { SpotImage, ReviewImage, Booking }= require('../../db/models');
 const { ErrorHandler } = require('../../utils/errorHandler'); 
 const router = express.Router();
 
 // Spot GET Method 
 router.get('/', async (req, res, next) => {
     try {
+        let {page, size} = req.query;
+
+        page = parseInt(page);
+
+        size = parseInt(size);
+
+        if(isNaN(page) || page <= 0){
+            page = 1
+        };
+        if(isNaN(size) || page <= 0){
+            size = 1
+        };
         const spots = await Spot.findAll({
+            // where:
+            // {
+            //     limit: size,
+            //     offset:(size) * (page - 1)
+            // },
             include: {
                 model: SpotImage,
                 where:{
-                    preview:true
+                    preview:true,
                 }
             }
         });
@@ -78,6 +95,43 @@ router.get('/:spotId', async (req, res, next) => {
         next(error)
     }
 });
+router.get('/:spotId/bookings', async (req, res, next) => {
+    try {
+        const spot = req.params.spotId;
+        const bookings = await Booking.findAll({
+            where:{
+                spotId: spot
+            }
+        })
+        return res.json(bookings)
+    } catch (error) {
+        next(error)
+    }
+});
+router.get('/:spotId/reviews/aggregate', async (req, res, next) => {
+    try {
+        const spotId = req.params.spotId;
+        
+        const spot = await Spot.findByPk(spotId);
+        if (!spot) {
+            return res.status(404).json({ message: "Spot not found" });
+        }
+        
+        // Aggregate review data
+        const reviews = await Review.findOne({
+            where: { spotId: spotId },
+            attributes: [
+                [sequelize.fn('AVG', sequelize.col('stars')), 'averageRating'],
+                [sequelize.fn('COUNT', sequelize.col('id')), 'totalReviews']
+            ]
+        });
+        const aggregatedData = reviews[0].dataValues;
+        
+        return res.json(aggregatedData);
+    } catch (error) {
+        next(error);
+    }
+});
 router.get('/:spotId/reviews', async (req, res, next) => {
     try {
     const spotId = req.params.spotId;
@@ -91,30 +145,6 @@ router.get('/:spotId/reviews', async (req, res, next) => {
 } catch (error) {
     next(error);
 }
-})
-router.get('/:spotId/reviews/aggregate', async (req, res, next) => {
-    try {
-        const spotId = req.params.spotId;
-
-        const spot = await Spot.findByPk(spotId);
-        if (!spot) {
-            return res.status(404).json({ message: "Spot not found" });
-        }
-
-        // Aggregate review data
-        const reviews = await Review.findOne({
-            where: { spotId: spotId },
-            attributes: [
-                [sequelize.fn('AVG', sequelize.col('stars')), 'averageRating'],
-                [sequelize.fn('COUNT', sequelize.col('id')), 'totalReviews']
-            ]
-        });
-        const aggregatedData = reviews[0].dataValues;
-
-        return res.json(aggregatedData);
-    } catch (error) {
-        next(error);
-    }
 });
 // Spot POST Method 
 router.post('/', async (req, res, next) => {
@@ -156,13 +186,9 @@ router.post('/:spotId/reviews', async (req, res, next) => {
         next(error)
     }
 });
-router.post('/:spotId/bookings', async (req, res, next) => {
-    try {
-        
-    } catch (error) {
-        next(error)
-    }
-});
+router.post('/:spotId/bookings', async (req,res,next)=>{
+
+})
 // Spots PUT Method
 router.put('/:spotId', async (req, res, next) => {
     try {
