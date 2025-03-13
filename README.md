@@ -1609,3 +1609,95 @@ Return spots filtered by query parameters.
       }
     }
     ```
+## Redux State Psudocode
+
+## Spots
+Normalize the store with an array and an object to quick accessibility. Our store should have a default data structure. 
+
+### Get All Spots
+Get all Spots showing on the splash page ('/')
+```js
+const state = {
+  Spots:{bySpotId:[], allIds:{}},
+  Reviews:{byReviewId:[], allIds:{}}
+}
+```
+
+
+```js 
+      allSpots[1,2,3]
+      byId:{
+        1:{
+        userId: 1,
+        address: '123 First St',
+        city: 'San Diego',
+        state: 'California',
+        country: 'USA',
+        lat: 12.34,
+        lng: -12.34,
+        name: 'Airbnb Name',
+        description: 'Airbnb Name Description',
+        price: 123.45,
+      },
+      2:{
+        userId: 2,
+        address: '1234 Second St',
+        city: 'Los Angeles',
+        state: 'California',
+        country: 'USA',
+        lat: 12.44,
+        lng: -12.44,
+        name: 'Airbnb Second Name',
+        description: 'Airbnb Second Name Description',
+        price: 123.55,
+      },
+      3:{
+        userId: 3,
+        address: '12345 Third St',
+        city: 'San Francisco',
+        state: 'California',
+        country: 'USA',
+        lat: 12.54,
+        lng: -12.54,
+        name: 'Airbnb Third Name',
+        description: 'Airbnb Third Name Description',
+        price: 123.65,
+      }
+      }
+```
+## Reviews
+Reviews will have noralized data. One for the reviews based on spots and reviews based on owners reivews.
+
+```js
+{
+        spotId: 1,
+        userId: 2,
+        review: "Amazing place! Had a wonderful stay.",
+        stars: 5
+      },
+      {
+        spotId: 2,
+        userId: 3,
+        review: "Decent stay, but could be cleaner.",
+        stars: 3
+      },
+      {
+        spotId: 3,
+        userId: 1,
+        review: "Great experience, will come back again.",
+        stars: 4
+      },
+      {
+        spotId: 3,
+        userId: 3,
+        review: "Great experience, will come back again.",
+        stars: 4
+      },
+      {
+        spotId: 3,
+        userId: 2,
+        review: "Great experience, will come back again.",
+        stars: 4
+      }
+  
+```
