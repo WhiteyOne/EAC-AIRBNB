@@ -8,7 +8,7 @@ function AllSpots() {
     const dispatch = useDispatch();
 
 
-    const [spots, setSpots] = useState([])
+    const [spots, _setSpots] = useState([])
     const [isLoaded, setIsLoaded] = useState(false)
 
     useEffect(() => {
