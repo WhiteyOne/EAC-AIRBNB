@@ -36,12 +36,16 @@ export const getAllSpotsThunk = () => async (dispatch) => {
 }
 
 //---- REDUCERS ----
-
-function spotsReducer(state = {}, action){
-    let newState = {...state};
+const initialState = {allSpots:[],byId:{}}
+function spotsReducer(state = initialState, action){
+    let newState
     switch(action.type){
         case SET_SPOT_DATA:
-            newState= {...state}
+            newState = {...state}
+            // console.log(action.payload)
+            // // for(let spot of action.payload){
+                
+            // }
             return newState;
         default:
             return newState
