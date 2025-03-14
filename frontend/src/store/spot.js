@@ -7,7 +7,6 @@ const SET_SPOT_DATA = "spot/all"
 
 //----Action Creator----
 const getAllSpotsAction = (spots) => {
-    console.log(spots)
     return {
         type:SET_SPOT_DATA,
         payload: spots
