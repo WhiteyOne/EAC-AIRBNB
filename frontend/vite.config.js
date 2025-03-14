@@ -7,7 +7,8 @@ export default defineConfig(({ mode }) => ({
   plugins: [
     react(),
     eslint({
-      lintOnStart: true
+      lintOnStart: true,
+      failOnError: mode !== "production"
     })
   ],
   server: {
