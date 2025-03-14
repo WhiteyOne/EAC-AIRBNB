@@ -1,5 +1,7 @@
 //----IMPORTS----
 
+import { csrfFetch } from "./csrf"
+
 
 //----Action Types----
 const SET_SPOT_DATA = "spot/all"
@@ -19,19 +21,20 @@ const getAllSpotsAction = (spots) => {
 
 export const getAllSpotsThunk = () => async (dispatch) => {
     try {
-        const res = await fetch("/api/spots")
+        const res = await csrfFetch("/api/spots/")
 
         if(res.ok){
             
             const data = await res.json()
+            console.log(data, "this is my data")
             dispatch(getAllSpotsAction(data))
+            
         }else{
             throw res
         }
-        return res
         
     } catch (error) {
-        console.log(error)
+        return error
     }
 }
 
@@ -42,10 +45,14 @@ function spotsReducer(state = initialState, action){
     switch(action.type){
         case SET_SPOT_DATA:
             newState = {...state}
-            // console.log(action.payload)
-            // // for(let spot of action.payload){
-                
-            // }
+            const spotsArray = action.payload.Spots;
+            const newById = {...newState.byId};//this is for byId
+            for(let spot of spotsArray){
+                newState.byId[spot.id] = spot;
+            }
+            newState.byId = newById; // this is for all spots
+            newState.allSpots = spotsArray; 
+            console.log(action.payload, "action pay")
             return newState;
         default:
             return state;
