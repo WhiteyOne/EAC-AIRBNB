@@ -5,15 +5,32 @@
     margin-bottom: 2.5rem;
     width: 2rem;
     height: 1rem;
-   
+    justify-content: start;   
+    
 }
 .nav-container{
     display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: end;
-    margin-right: 5rem;
-    margin-bottom: 3rem;
-    width: auto;
-    height: 8rem;
+    margin-left: 0%;
+    margin-right: 0%;
+    justify-content: space-between;
+    padding-bottom: 5rem;
+    border-style: groove; 
+    border-top: hidden;  
+    border-right: hidden;
+    border-left: hidden;
+    border-color: orangered;
+    border-width: 5px;
+}
+.nav-links img{
+    width:80px;
+    height: auto;
+}
+.right-side-nav{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: black;
+    margin-right: 10px;
+    width: 200px;
+    height: 75px;
 }
