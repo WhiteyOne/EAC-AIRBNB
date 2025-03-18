@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import './Navigation.css';
-import CreateSpot from './CreateSpot';
+// import CreateSpot from './CreateSpot';
 
 
 function Navigation({ isLoaded }) {
@@ -13,7 +13,7 @@ function Navigation({ isLoaded }) {
             <div>
                 <li className='nav-links'>
                     <NavLink to="/">lightSwitch
-                        <img src='../../public/switch.jpg' />
+                        <img src='../../switch.jpg' />
                     </NavLink>
                 </li>
 
