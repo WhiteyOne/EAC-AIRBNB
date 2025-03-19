@@ -450,7 +450,6 @@ router.post('/:spotId/reviews',validateReview, async (req, res, next) => {
                 userId: userId
             }
         })
-    // console.log(userReview)
         if(!userReview){
             const newReview = await Review.create({ userId, spotId, userId, review, stars });
             res.status(201)
@@ -459,8 +458,6 @@ router.post('/:spotId/reviews',validateReview, async (req, res, next) => {
         }else{
             throw new ErrorHandler("User already has a review for this spot.");
         }
-        //const numSpot = Number(spot);
-        //console.log(numSpot)
     } catch (error) {
         next(error);
     }

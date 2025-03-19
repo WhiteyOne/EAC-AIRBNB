@@ -17,7 +17,6 @@ if (config.use_env_variable) {
 }
 
 sequelize.authenticate()
-  .then(() => { console.log('** Connected to db successfully'); })
   .catch(err => { console.error('** Could not connect to database:', err); });
 
 fs

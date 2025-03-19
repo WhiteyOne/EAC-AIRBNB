@@ -1,0 +1,37 @@
+.spot-container{
+    display: grid;
+    justify-content: space-around;
+    grid-template-columns: 20rem 20rem;
+    grid-template-rows: 20rem 20rem;
+
+}
+.per-spot-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+.image-label{
+    display: grid;
+    flex-direction: column;
+}
+.label-text{
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 1.25rem;
+    display: flex;
+}
+.splash-imgs{
+    width: 250px;
+    height: 150px;
+    border-style: groove;
+}
+.per-image-container{
+    background-color: red;
+}
+.cursor-main{
+    cursor:pointer;
+}
+button{
+    cursor:pointer;
+}
