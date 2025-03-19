@@ -7,7 +7,8 @@ function SpotCard({ spot, idx }) {
                 <div className="per-image-container">
                     <NavLink to={`/spots/${spot.id}`}>
                         <img
-                            className='splash-imgs'
+                            
+                            className='splash-imgs cursor-main'
                             src={spot.previewImage ? `${spot.previewImage}` : ""}
                         />
                     </NavLink>

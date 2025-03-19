@@ -38,33 +38,34 @@ export const getAllSpotsThunk = () => async (dispatch) => {
         return error
     }
 }
-export const createSpotThunk = (user, newSpot) => async (dispatch) => {
+export const createSpotThunk = (newSpot) => async (dispatch) => {
     try {
-        const id = user.id
-        const { country, address, city, state, lat, lng, description, title, price, previewImage, images } = newSpot;
+        console.log("inside the thunk")
+        
+        const { userId, country, address, city, state, lat, lng, description, title, price} = newSpot;
+       
         const res = await csrfFetch("/api/spots", {
             method: "POST",
             body: JSON.stringify({
-                userId: id,
                 country,
                 address,
                 city,
                 state,
-                lat,
-                lng,
+                lat:(Number(lat)),
+                lng:(Number(lng)),
                 description,
                 title,
-                price,
-                previewImage,
-                images
+                price:(Number(price))
             })
         });
         if(res.ok){
             const data = await res.json();
             dispatch(getAllSpotsAction(data.newSpot))
+            console.log("did we do the thing?")
+            return res
         }
     } catch (error) {
-        console.log(error)
+        console.log(error,'-this error')
     }
 }
 
@@ -84,6 +85,7 @@ function spotsReducer(state = initialState, action) {
             newState.allSpots = spotsArray;
             console.log(action.payload, "action pay")
             return newState;
+        
         default:
             return state;
     }

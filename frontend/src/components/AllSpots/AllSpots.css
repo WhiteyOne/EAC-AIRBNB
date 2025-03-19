@@ -29,3 +29,9 @@
 .per-image-container{
     background-color: red;
 }
+.cursor-main{
+    cursor:pointer;
+}
+button{
+    cursor:pointer;
+}

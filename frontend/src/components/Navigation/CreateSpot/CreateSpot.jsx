@@ -10,8 +10,11 @@ import { createSpotThunk } from "../../../store/spot";
 function CreateSpot() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
+
     const userId = useSelector((state)=>state.session.user.id)
-    console.log(userId, "--- this is Id")
+
+
     const [country, setCountry] = useState('')
     const [address, setAddress] = useState('')
     const [city, setCity] = useState('')
@@ -20,12 +23,12 @@ function CreateSpot() {
     const [lng, setLng] = useState(0)
     const [description, setDescription] = useState('')
     const [title, setTitle] = useState('')
-    const [price, setPrice] = useState()
+    const [price, setPrice] = useState(1)
     const [previewImage, setPreviewImage] = useState('')
     const [images, setImages] = useState('')
-
+    
     const [errors, setErrors] = useState({})
-
+    
     useEffect(() => {
         const newErrors = {};
         if (!country) {
@@ -96,9 +99,9 @@ function CreateSpot() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(createSpotThunk({country, address, city, state, lat, lng, description, title, price, previewImage,images})
+        console.log('booped the booper')
+        return dispatch(createSpotThunk({userId,country, address, city, state, lat, lng, description, title, price, previewImage,images})) && navigate(`/spots/${userId}`
     )
-        return navigate(`/spots/${userId}`)
     }
     return (
         <>
@@ -165,7 +168,7 @@ function CreateSpot() {
                             Latitude
                             <p style={{fontSize:13,color:"gray"}}>{errors.lat}</p>
                             <input
-                                type="number"
+                                type="text"
                                 name="Latitude"
                                 value={lat}
                                 placeholder="latitude"
@@ -176,7 +179,7 @@ function CreateSpot() {
                             Longitude
                             <p style={{fontSize:13,color:"gray"}}>{errors.lng}</p>
                             <input
-                                type="number"
+                                type="text"
                                 name="Longitude"
                                 value={lng}
                                 placeholder="longitude"

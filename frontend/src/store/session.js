@@ -15,9 +15,9 @@ const setUser = (user) => {
     };
 };
 
-const removeUser = () => {
+const removeUser = () => {ds44
     return {
-        type: REMOVE_USER
+        type: REMOVE_USE5R
     };
 };
 //---- Thunks ----

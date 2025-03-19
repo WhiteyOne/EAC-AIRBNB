@@ -11,8 +11,8 @@ function Navigation({ isLoaded }) {
     return (
         <ul className='nav-container'>
             <div>
-                <li className='nav-links'>
-                    <NavLink to="/">lightSwitch
+                <li className='nav-links' >
+                    <NavLink to="/">lightSwitch 
                         <img src='../../switch.jpg' />
                     </NavLink>
                 </li>
