@@ -22,22 +22,25 @@ function AllSpots() {
             getAllSpots()
         }
 
-    }, [spots, isLoaded, dispatch])
+    }, [isLoaded, dispatch])
     if (!isLoaded) {
         return <h1>Loading</h1>
+    } else {
+        return (
+            <>
+                <div className="spot-container">
+                    {
+                        spots.map((spot, idx) => (
+                            <div className="map-card-container" key={`${idx}--${spot.id}`} >
+                                <SpotCard spot={spot}/>
+                            </div>
+                        ))
+                    }
+                </div>
+            </>
+        );
+
     }
-    return (
-        <>
-            <h2></h2>
-            <div className="spot-container">
-                {
-                    spots.map((spot, idx) => (
-                      <SpotCard key={idx} spot={spot} idx={idx}/>
-                    ))
-                }
-            </div>
-        </>
-    )
 }
 
 export default AllSpots;
