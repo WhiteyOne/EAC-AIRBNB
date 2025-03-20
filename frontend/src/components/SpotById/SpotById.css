@@ -1,4 +1,9 @@
 .spot-details-card{
-    background-color: lightblue;
+    padding-left: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    border-style: double;
+    border-radius: 2rem;
+    box-shadow: 3rem;
     max-width: 1000px;
 }

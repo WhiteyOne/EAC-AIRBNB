@@ -8,6 +8,8 @@ import SpotById from './components/SpotById';
 import CreateSpot from './components/Navigation/CreateSpot';
 import ManageSpots from './components/Navigation/ManageSpot';
 import ReviewPopout from './components/SpotById/SubComponent';
+import UpdateSpot from './components/Navigation/UpdateSpot';
+
 
 function Layout() {
   const dispatch = useDispatch();
@@ -54,6 +56,10 @@ const router = createBrowserRouter([
       {
         path:'/newReview',
         element:<ReviewPopout />
+      },
+      {
+        path:'/spots/:id/edit',
+        element:<UpdateSpot/>
       }
     ]
   },
