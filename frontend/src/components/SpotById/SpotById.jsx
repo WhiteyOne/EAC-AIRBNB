@@ -1,18 +1,19 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { getAllSpotsThunk } from "../../store/spot";
-import { NavLink, useNavigate, useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
+import './SpotById.css'
 
 function SpotById() {
     const { spotId } = useParams()
     const dispatch = useDispatch();
     const sessionUser = useSelector(state => state.session.user);
-    // const navigate = useNavigate()
-    const reviews = [{firstName:'june', review:'lfkajsldgjlajsdlgjasldf',date:Date().now},
-                    {firstName:'wakjflne', review:'lfkajsldgjlajsdlgjasldf',date:Date().now}]
+
+
     const spot = useSelector((state) => state.spots.allSpots[Number(spotId)])
     const [isLoaded, setIsLoaded] = useState(false)
+    console.log(sessionUser, 'thisis my spot')
 
     useEffect(() => {
         const getAllSpots = async () => {
@@ -24,50 +25,61 @@ function SpotById() {
             getAllSpots()
         }
 
-    }, [spot, isLoaded, dispatch])
-    return (
-        <>
-            <div>
-                <div>
-                    <h2>Name</h2>
-                    <p>city, state, country</p>
-                </div>
-                <div className="spec-imag-container">
-                    <div className="spec-imag-container-main">
-                        <a > PreviewImage </a>
+    }, [isLoaded, dispatch])
+    if (!isLoaded) {
+        return <h1>Loading</h1>
+    } else {
 
-                    </div>
-                    <div className="spec-imag-container-sub">
-                        <a> image 1</a>
-                        <a> image 2</a>
-                        <a> image 3</a>
-                        <a> image 4</a>
-                    </div>
-                </div>
-                <div className="spec-spot-dis" style={{ display: "grid" }}>
+        return (
+            <>
+                <div className="spot-details-card">
                     <div>
-                        <h3>Hosted by</h3>
+                        <h2>Name</h2>
+                        <p>{`${spot.city}, ${spot.state}, ${spot.country}`}</p>
                     </div>
-                    <div>
-                        <p> this is all the information about the spot that I need to know for why I should book this place jjjfsjdfljsaldfjasjdfljasldjfajsdfljas;dfjksl;djflsjdfljsldjflksadjfklsajdlfjlasljdflkjasdlf;jflkajsldfjlasjdfljals;dfj;ljasdlfjlasjdfljaskldfjlksadjflajsdfljasl;dfjlasjdfljasdlkfjasldfjlasjdflkajsdklfjlsadfjlajsdfjlasjfl;kasjdflajsdfkljasdflkas</p>
+                    <div className="spec-imag-container">
+                        <div className="spec-imag-container-main">
+                            <img src={`${spot.previewImage}`} />
+
+                        </div>
+                        <div className="spec-imag-container-sub">
+
+                        </div>
                     </div>
-                </div>
+                    <div className="spec-spot-dis" style={{ display: "grid" }}>
+                        <div>
+                            <h3>Hosted by</h3>
+                        </div>
+                        <div>
+                            <p> this is all the information about the spot that I need to know for why I should book this place jjjfsjdfl jsaldfjasjdfljasldjfajsdflja s;dfjksl; djflsjdfljs ldjfl ksadjf klsajdl fjlasljd flkjasdl  f;jflkajs ldfjlasjdf ljals;d fj;l jasdlfj lasjdfl jaskldfj lksa djflajsd fljasl;dfj lasjdfl jasd l k fjasldfjl asjdflk ajsdklfjl s  adfjla jsdfjl asjf l;kas jdflajs dfkljasd flkas</p>
+                        </div>
+                    </div>
                     <div className="spec-reserve-container">
-                        <h3>{`$${"price"} night`}</h3>
-                        <FaStar/>
+                        <h3>{`$${spot.price} /night`}</h3>
+                        <FaStar />
                         <a>{`${"reviews"}`}</a>
-                {sessionUser && (
-                    <NavLink
-                        
-                        type="button"
-                        
-                    >Reserve</NavLink>
-                    )}
+                        {sessionUser && (
+                            <NavLink
+                                to="/bookings"
+                                type="button"
+                            >Reserve</NavLink>
+                        )}
                     </div>
+                    <div className="spec-review-container">
+                        <div className="review-post-container">
+                            <FaStar />
+                            <h3>{spot.aveReview ? `${spot.aveReview} - ${spot.aveReview} Reviews` : `New`}</h3>
+                        </div>
+                        {sessionUser && (
+                            <button>Post Your Review</button>
+                        )}
+                        <h3>Reviews coming soon</h3>
 
-            </div>
+                    </div>
+                </div>
 
-        </>
-    )
+            </>
+        );
+    }
 }
 export default SpotById;

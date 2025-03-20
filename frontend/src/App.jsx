@@ -6,6 +6,8 @@ import * as sessionActions from './store/session';
 import AllSpots from './components/AllSpots';
 import SpotById from './components/SpotById';
 import CreateSpot from './components/Navigation/CreateSpot';
+import ManageSpots from './components/Navigation/ManageSpot';
+import ReviewPopout from './components/SpotById/SubComponent';
 
 function Layout() {
   const dispatch = useDispatch();
@@ -35,13 +37,24 @@ const router = createBrowserRouter([
       },
       {
         path:'/spots/:spotId',
-        element:<SpotById/>
+        element:<SpotById />
       },
       {
         path:'/spots/new',
         element:<CreateSpot />
       },
-      
+      {
+        path:'/spots/current',
+        element: <ManageSpots />
+      },
+      {
+        path:'/bookings',
+        element: <h1>Under Construction</h1>
+      },
+      {
+        path:'/newReview',
+        element:<ReviewPopout />
+      }
     ]
   },
   {

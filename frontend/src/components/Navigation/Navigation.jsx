@@ -11,26 +11,28 @@ function Navigation({ isLoaded }) {
     return (
         <ul className='nav-container'>
             <div>
-                <li className='nav-links' >
-                    <NavLink to="/">lightSwitch 
+
+                <div className='nav-links' >
+                    <NavLink to="/">
                         <img src='../../switch.jpg' />
                     </NavLink>
-                </li>
+                </div>
 
             </div>
+            <h1>Light Switch</h1>
             <div className='right-side-nav'>
                 {sessionUser && (
-
-                    <li className='nav-links'>
-                        <NavLink to='/spots/new'>Create a Spot</NavLink>
-                    </li>
+                        <a className='create-spot-link'>
+                            <NavLink to='/spots/new'><h4>Create a Spot</h4></NavLink>
+                        </a>
+                   
 
                 )}
                 {isLoaded && (
-
-                    <li className='nav-links'>
-                        <ProfileButton user={sessionUser} />
-                    </li>
+                    
+                        <a className='splash-nav-links'>
+                            <ProfileButton user={sessionUser} />
+                        </a>
 
                 )}
             </div>
