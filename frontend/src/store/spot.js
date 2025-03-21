@@ -39,69 +39,59 @@ export const getAllSpotsThunk = () => async (dispatch) => {
 }
 export const createSpotThunk = (newSpot) => async (dispatch) => {
     try {
-        console.log("inside the thunk")
-
-        const { userId, country, address, city, state, lat, lng, description, title, price } = newSpot;
-
-        const res = await csrfFetch('http://localhost:8000/api/spots/', {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-            },
-            body: JSON.stringify({
-                userId,
-                country,
-                address,
-                city,
-                state,
-                lat,
-                lng,
-                description,
-                title,
-                price
-            }),
-
-        });
-            const data = await res.json();
-            dispatch(getAllSpotsAction(data.newSpot))
-            console.log("did we do the thing?")
-            return res
+        // change the price into a number for the backend
+        newSpot.price = parseInt(newSpot.price);
         
-    } catch (error) {
-        console.log(error, '-this error')
+        newSpot.lat = Number(newSpot.lat);
+        newSpot.lng = Number(newSpot.lng);
+        // option for the csrfFetch
+        const options = {
+            method: "POST",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(newSpot)
+        }
+
+        const res = await csrfFetch('/api/spots/', options); // <-- pass in options. cleaner to debug
+        if(res.ok){
+
+            const data = await res.json();
+            dispatch(getAllSpotsAction(data))
+            return data; //<-- return data, not res. This lets us see the id in the component
+        } else{
+            throw res
+        }
+
+    } catch (errResponse) {
+        return errResponse;
     }
 }
 
-export const updateSpotThunk = (newSpot) => async (dispatch) => {
+export const updateSpotThunk = (newSpot,spotId) => async (dispatch) => {
     try {
-
-        const { userId, country, address, city, state, lat, lng, description, title, price } = newSpot;
-
-        const res = await csrfFetch('http://localhost:8000/api/:spotId/', {
+        // change the price into a number for the backend
+        newSpot.price = parseInt(newSpot.price);
+        console.log("hello from the thunk side")
+        newSpot.lat = Number(newSpot.lat);
+        newSpot.lng = Number(newSpot.lng);
+        // option for the csrfFetch
+        const options = {
             method: "PUT",
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-            },
-            body: JSON.stringify({
-                country,
-                address,
-                city,
-                state,
-                lat,
-                lng,
-                description,
-                title,
-                price
-            }),
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(newSpot)
+        }
 
-        });
+        const res = await csrfFetch(`/api/spots/${spotId}`, options); // <-- pass in options. cleaner to debug
+        if(res.ok){
+
             const data = await res.json();
-            dispatch(getAllSpotsAction(data.newSpot))
-            console.log("did we do the thing?")
-            return res
-        
-    } catch (error) {
-        console.log(error, '-this error')
+            dispatch(getAllSpotsAction(data))
+            return data; //<-- return data, not res. This lets us see the id in the component
+        } else{
+            throw res
+        }
+
+    } catch (errResponse) {
+        return errResponse;
     }
 }
 

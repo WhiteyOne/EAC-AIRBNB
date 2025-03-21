@@ -11,7 +11,7 @@ function SpotById() {
     const sessionUser = useSelector(state => state.session.user);
 
 
-    const spot = useSelector((state) => state.spots.allSpots[Number(spotId)])
+    const spot = useSelector((state) => state.spots.allSpots[spotId -1])
     const [isLoaded, setIsLoaded] = useState(false)
     console.log(sessionUser, 'thisis my spot')
 
@@ -51,7 +51,7 @@ function SpotById() {
                             <h3>Hosted by</h3>
                         </div>
                         <div>
-                            <p> this is all the information about the spot that I need to know for why I should book this place jjjfsjdfl jsaldfjasjdfljasldjfajsdflja s;dfjksl; djflsjdfljs ldjfl ksadjf klsajdl fjlasljd flkjasdl  f;jflkajs ldfjlasjdf ljals;d fj;l jasdlfj lasjdfl jaskldfj lksa djflajsd fljasl;dfj lasjdfl jasd l k fjasldfjl asjdflk ajsdklfjl s  adfjla jsdfjl asjf l;kas jdflajs dfkljasd flkas</p>
+                        <p>{`${spot.description}`}</p>
                         </div>
                     </div>
                     <div className="spec-reserve-container">

@@ -86,14 +86,6 @@ const validateSpots = [
         .exists({ checkFalsy: true })
         .isLength({ max: 30 })
         .withMessage('Country must be less than 30 characters'),
-    check('lat')
-        .exists({ checkFalsy: true })
-        .isFloat({ min: -90, max: 90 })
-        .withMessage('Latitude must be within -90 and 90'),
-    check('lng')
-        .exists({ checkFalsy: true })
-        .isFloat({ min: -180, max: 180 })
-        .withMessage('Longitude must be within -180 and 180'),
     check('name')
         .exists({ checkFalsy: true })
         .isLength({ min: 1 })

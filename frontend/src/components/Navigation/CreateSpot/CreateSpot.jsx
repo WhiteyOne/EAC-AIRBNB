@@ -1,35 +1,48 @@
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import './CreateSpot.css'
 import { useDispatch, useSelector } from "react-redux";
 import { createSpotThunk } from "../../../store/spot";
+import { getAllSpotsThunk } from "../../../store/spot";
 
 
 
 
 function CreateSpot() {
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const dispatch = useDispatch();
 
 
     const userId = useSelector((state)=>state.session.user.id)
-
+    // const spots = useSelector((state) => state.spots.allSpots)
+    
 
     const [country, setCountry] = useState('')
     const [address, setAddress] = useState('')
     const [city, setCity] = useState('')
     const [state, setState] = useState('')
-    const [lat, setLat] = useState(0)
-    const [lng, setLng] = useState(0)
+    const [lat, setLat] = useState(null)
+    const [lng, setLng] = useState(null)
     const [description, setDescription] = useState('')
-    const [title, setTitle] = useState('')
+    const [name, setName] = useState('')
     const [price, setPrice] = useState(1)
     const [previewImage, setPreviewImage] = useState('')
     const [images, setImages] = useState('')
+    const [isLoaded, setIsLoaded] = useState(false)
     
     const [errors, setErrors] = useState({})
     
     useEffect(() => {
+        const getAllSpots = async () => {
+
+            await dispatch(getAllSpotsThunk());
+            setIsLoaded(true)
+        }
+        if (!isLoaded) {
+            getAllSpots()
+        }
+        
+
         const newErrors = {};
         if (!country) {
             newErrors.country = "Required"
@@ -56,15 +69,10 @@ function CreateSpot() {
             newErrors.state = "State must be more then 1 character and less then 30."
         }
 
-        if(!lat){
-            newErrors.lat = "Required"
-        }
-        else if (lat < -90 || lat > 90) {
+        if (lat && lat < -90 || lat && lat > 90) {
             newErrors.lat = "Lattitude must be between -90 and 90."
-        } if(!lng){
-            newErrors.lng = "Required"
         }
-        else if (lng < -180 || lng > 180) {
+        if (lng && lng < -180 || lng && lng > 180) {
             newErrors.lng = "Longitude must be between -180 and 180"
         }
         if(!description){
@@ -73,11 +81,11 @@ function CreateSpot() {
         else if (description.length <= 30 || description.length > 256) {
             newErrors.description = "Descriptions can be 30 characters up to 256 characters long"
         }
-        if(!title){
-            newErrors.title = "Name is required"
+        if(!name){
+            newErrors.name = "Name is required"
         }
-        else if (title.length < 1 || title.length > 50) {
-            newErrors.title = "Title can't exceed 50 characters"
+        else if (name.length < 1 || name.length > 50) {
+            newErrors.name = "name can't exceed 50 characters"
         }
         
         if(!price){
@@ -85,7 +93,7 @@ function CreateSpot() {
         } else if (price < 0.01) {
             newErrors.price = "You have to make something from your posting"
         }
-        if (!previewImage.length) {
+        if (!previewImage) {
             newErrors.previewImage = "You have to have a preview image"
         } else if((previewImage && previewImage.endsWith('.jpg')) ||(previewImage && previewImage.endsWith('.jpeg')) || (previewImage && !previewImage.endsWith('.png')) ){
             newErrors.previewImage = "Your image needs to end with .png, .jpeg or .jpg"
@@ -94,17 +102,25 @@ function CreateSpot() {
             newErrors.images = "Your image needs to end with .png, .jpeg or .jpg"
         }
         setErrors(newErrors);
-    }, [country, address, city, state, lat, lng, description, title, price, previewImage, images])
+    }, [country, address, city, state, lat, lng, description, name, price, previewImage, images,isLoaded,dispatch])
 
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         console.log('booped the booper')
-        return dispatch(createSpotThunk({userId,country, address, city, state, lat, lng, description, title, price, previewImage,images})) && navigate(`/spots/${userId}`
-    )
+        return await dispatch(createSpotThunk({userId,country, address, city, state, lat, lng, description, name, price, previewImage,images}))
     }
-    return (
-        <>
+    if(!isLoaded){
+        return <h1>Loading</h1>
+    }else{
+
+        return (
+            <>
+            <button
+            onClick={()=>{
+                setCountry('USA'), setAddress('123 bikini Bottom way'), setCity('honolulu'), setState('Hawaii'), setLat(10), setLng(10), setDescription('You just need to find out where the secret sauce is and you will make billions'), setName('Pinapple Under Da Sea'), setPrice(250.00), setPreviewImage('/Users/CaydenH/Desktop/App_Academ_BootCamp/AA-pictures/spongebob-squarepants-hotel-pineapple-nickelodeon-resort-punta-cana-fb.png'), setImages('/Users/CaydenH/Desktop/App_Academ_BootCamp/AA-pictures/hq720.png')
+            }}
+            > Dummy Data</button>
             <form className="create-spot-form"
                 onSubmit={(e) => handleSubmit(e)}
             >
@@ -203,19 +219,19 @@ function CreateSpot() {
                         <p style={{fontSize:13,color:"gray"}}>{errors.description}</p>
                     </label>
                 </div>
-                <div className="title-container">
+                <div className="name-container">
                     <label>
-                        <h3>Create a title for your spot</h3>
-                        <span>Catch guests&apos; attention with a spot title that highlights what makes your place special.</span>
+                        <h3>Create a name for your spot</h3>
+                        <span>Catch guests&apos; attention with a spot name that highlights what makes your place special.</span>
                         <input
                             type="text"
-                            name="title"
-                            value={title}
+                            name="name"
+                            value={name}
                             placeholder="name of spot"
-                            onChange={(e) => setTitle(e.target.value)}
+                            onChange={(e) => setName(e.target.value)}
                         />
                     </label>
-                    <p style={{fontSize:13,color:"gray"}}>{errors.title}</p>
+                    <p style={{fontSize:13,color:"gray"}}>{errors.name}</p>
                 </div>
                 <div className="price-container">
                     <label>
@@ -268,6 +284,7 @@ function CreateSpot() {
 
         </>
     )
+}
 }
 
 export default CreateSpot;
