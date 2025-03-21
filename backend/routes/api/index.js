@@ -1,6 +1,6 @@
 //express imports
 const router = require('express').Router();
-const { handleError } = require('../../utils/errorHandler');
+
 const { restoreUser } = require('../../utils/auth');
 
 // Import all route files
@@ -37,7 +37,5 @@ router.post('/test', (req, res) => {
     next(err);
 });*/
 
-// Error handler
-router.use(handleError);
 
 module.exports = router;
