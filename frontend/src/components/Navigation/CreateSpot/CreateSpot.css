@@ -1,0 +1,8 @@
+.create-spot-form{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    padding-left: 12rem;
+    padding-right: 12rem;
+}
+

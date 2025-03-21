@@ -1,4 +1,6 @@
 import { NavLink } from "react-router-dom";
+import { FaStar } from "react-icons/fa";
+import './SpotCard.css'
 
 function SpotCard({ spot, idx }) {
     return (
@@ -7,29 +9,26 @@ function SpotCard({ spot, idx }) {
                 <div className="per-image-container">
                     <NavLink to={`/spots/${spot.id}`}>
                         <img
-                            className='splash-imgs'
+
+                            className='splash-imgs cursor-main'
                             src={spot.previewImage ? `${spot.previewImage}` : ""}
                         />
                     </NavLink>
                 </div>
-                <div className="text-img image-label">
-                    <span className="description-card">
+                <div className="splash-info-container">
+                    <div className="splash-top-container spot-text">
+                        <span>{spot.city}, {spot.state}</span>
                         <div>
-                            <p className='location-splash label-text'>
-                                {`${spot.city}, ${spot.state}`}
-                            </p>
-                            <p>
-
-                            </p>
-                            <p className='price-splash label-text'>
-                                {`$${spot.price} per night`}
-                            </p>
+                        <FaStar/>
+                        <span>{spot.aveReview}</span>
                         </div>
-                        <div>
-                            <p>{`${spot.aveReview}`}</p>
-                        </div>
-                    </span>
-
+                    </div>
+                    <div className="splash-middle-container spot-text">
+                        <p>{spot.name}</p>
+                    </div>
+                    <div className="splash-bottom-container spot-text">
+                        <span>{`$${spot.price} /night`}</span>
+                    </div>
                 </div>
             </div>
         </>
