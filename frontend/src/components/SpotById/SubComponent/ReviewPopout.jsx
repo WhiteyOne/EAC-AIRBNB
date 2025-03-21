@@ -21,7 +21,7 @@ function ReviewPopout() {
             newErrors.rating = 'Please enter a rating to select a review'
         }
         setErrors(newErrors)
-    })
+    },[errors,rating,review])
     
     return (
         <>
@@ -33,7 +33,7 @@ function ReviewPopout() {
                 <input
                     type='text'
                     placeholder='Leave your review here!'
-                    onChange={(e)=>setReview(review)}
+                    onChange={()=>setReview(review)}
                 />
                 </form>
 

@@ -1,4 +1,4 @@
-// frontend/src/store/session.js
+
 //---IMPORTS----
 import { csrfFetch } from './csrf';
 

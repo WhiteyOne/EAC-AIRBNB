@@ -102,7 +102,7 @@ function CreateSpot() {
             newErrors.images = "Your image needs to end with .png, .jpeg or .jpg"
         }
         setErrors(newErrors);
-    }, [country, address, city, state, lat, lng, description, name, price, previewImage, images,isLoaded,dispatch])
+    }, [country, address, city, state, lat, lng, description, name, price, previewImage, images,isLoaded,dispatch,errors])
 
 
     const handleSubmit = async (e) => {

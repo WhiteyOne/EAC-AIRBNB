@@ -109,7 +109,7 @@ function UpdateSpot() {
         }
         setErrors(newErrors);
 
-    }, [isLoaded, dispatch, country, address, city, state, lat, lng, description, name, price, previewImage, images])
+    }, [isLoaded, dispatch, country, address, city, state, lat, lng, description, name, price, previewImage, images, errors])
 
 
     const handleSubmit = (e) => {
