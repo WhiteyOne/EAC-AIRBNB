@@ -59,7 +59,7 @@ const router = createBrowserRouter([
       },
       {
         path:'/spots/:id/edit',
-        element:<UpdateSpot/>
+        element:<UpdateSpot />
       }
     ]
   },

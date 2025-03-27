@@ -21,8 +21,8 @@ function CreateSpot() {
     const [address, setAddress] = useState('')
     const [city, setCity] = useState('')
     const [state, setState] = useState('')
-    const [lat, setLat] = useState(null)
-    const [lng, setLng] = useState(null)
+    const [lat, setLat] = useState('')
+    const [lng, setLng] = useState('')
     const [description, setDescription] = useState('')
     const [name, setName] = useState('')
     const [price, setPrice] = useState(1)
@@ -31,8 +31,7 @@ function CreateSpot() {
     const [isLoaded, setIsLoaded] = useState(false)
     
     const [errors, setErrors] = useState({})
-    
-    useEffect(() => {
+    useEffect(()=>{
         const getAllSpots = async () => {
 
             await dispatch(getAllSpotsThunk());
@@ -41,6 +40,9 @@ function CreateSpot() {
         if (!isLoaded) {
             getAllSpots()
         }
+    },[isLoaded,dispatch])
+    useEffect(() => {
+       
         
 
         const newErrors = {};
@@ -102,12 +104,11 @@ function CreateSpot() {
             newErrors.images = "Your image needs to end with .png, .jpeg or .jpg"
         }
         setErrors(newErrors);
-    }, [country, address, city, state, lat, lng, description, name, price, previewImage, images,isLoaded,dispatch,errors])
+    }, [country, address, city, state, lat, lng, description, name, price, previewImage, images])
 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('booped the booper')
         return await dispatch(createSpotThunk({userId,country, address, city, state, lat, lng, description, name, price, previewImage,images}))
     }
     if(!isLoaded){

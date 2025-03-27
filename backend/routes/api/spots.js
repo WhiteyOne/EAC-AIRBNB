@@ -148,6 +148,9 @@ router.get('/', async (req, res, next) => {
 
             include: [{
                 model:SpotImage,
+        },{
+            model:User,
+            as:"Owner"
         }],
         ...paginationObj
 })
@@ -200,6 +203,7 @@ router.get('/current', async (req, res, next) => {
             include:[{
                 model:SpotImage,
             },
+            
         ]
         })
         
@@ -326,10 +330,16 @@ router.get('/:spotId/reviews', async (req, res, next) => {
            if(!updatedReview.ReviewImage){
             delete updatedReview.ReviewImage;
            }
+           
             updatedReviews.push(updatedReview);
         }
+        if(updatedReviews.length === 0){
+            return res.json([])
+        }else{
+            return res.json({ Reviews: updatedReviews.reverse()});
+        }
 
-        return res.json({ Reviews: updatedReviews });
+        
     } catch (error) {
         next(error);
     }

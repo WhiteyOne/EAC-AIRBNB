@@ -6,13 +6,34 @@ import { csrfFetch } from "./csrf"
 
 //----Action Types----
 const SET_SPOT_DATA = "spot/all"
-
+const SET_SPOT_DETAILS = "spots/details"
+const SET_SPOT_REVIEWS = "spot/reviews"
+const DELETE_A_SPOT = "spot/spotId"
 
 //----Action Creator----
 const getAllSpotsAction = (spots) => {
     return {
         type: SET_SPOT_DATA,
         payload: spots
+    }
+}
+
+const getSpotDetailAction = (spot) => {
+    return {
+        type: SET_SPOT_DETAILS,
+        payload: spot
+    }
+}
+const getSpotReviews = (spotReviews) => {
+    return{
+        type:SET_SPOT_REVIEWS,
+        payload: spotReviews
+    }
+}
+const deleteSpotAction = (spotId) => {
+    return {
+        type:DELETE_A_SPOT,
+        payload: spotId
     }
 }
 
@@ -37,6 +58,7 @@ export const getAllSpotsThunk = () => async (dispatch) => {
         return e
     }
 }
+
 export const createSpotThunk = (newSpot) => async (dispatch) => {
     try {
         // change the price into a number for the backend
@@ -70,7 +92,7 @@ export const updateSpotThunk = (newSpot,spotId) => async (dispatch) => {
     try {
         // change the price into a number for the backend
         newSpot.price = parseInt(newSpot.price);
-        console.log("hello from the thunk side")
+        
         newSpot.lat = Number(newSpot.lat);
         newSpot.lng = Number(newSpot.lng);
         // option for the csrfFetch
@@ -94,12 +116,31 @@ export const updateSpotThunk = (newSpot,spotId) => async (dispatch) => {
         return errResponse;
     }
 }
+export const deleteSpotThunk = (spotId) => async (dispatch)=>{
+    try {
+        const options = {
+         method: "DELETE"
+        }
+       const res = await csrfFetch(`/api/spots/${spotId}`,options);
+       if(res.ok){
+        const data = await res.json();
+        
+        dispatch(deleteSpotAction())
+        
+        return data
+       }
+    } catch (error) {
+        return error
+    }
+}
 
 //---- REDUCERS ----
 const initialState = { allSpots: [], byId: {} }
 const spotsReducer = (state = initialState, action)=>{
     let newState;
     switch (action.type) {
+
+        // this is all my spots across DB
         case SET_SPOT_DATA:
             const spotsArray = action.payload.Spots;
             newState = { ...state }
@@ -111,6 +152,21 @@ const spotsReducer = (state = initialState, action)=>{
             newState.byId = newByIdGetAllSpots
             return newState;
 
+//  this is all my spots for the logged in user
+       
+// This is all my spots after I deleted the data
+        case DELETE_A_SPOT:
+            newState = {...state}
+            let spotId = action.payload
+            
+            let newById = {...newState.byId}
+            delete newById[spot.id]
+            newState.byId = newById
+            const newAllSpots = newState.allSpots.filter(filteredSpot => {
+                return filteredSpot.id !== spot.id
+            })
+            newState.allSpots = newAllSpots;
+            return newState;
         default:
             return state;
     }

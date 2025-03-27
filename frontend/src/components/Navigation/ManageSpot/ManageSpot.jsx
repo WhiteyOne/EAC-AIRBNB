@@ -5,7 +5,7 @@ import UserSpotCard from "./Subcomponent";
 
 
 
-function ManageSpots() {
+function ManageSpots({spot}) {
     const dispatch = useDispatch();
 
     const spots = useSelector((state) => state.spots.allSpots)
@@ -15,9 +15,10 @@ function ManageSpots() {
             return spot
         }
     })
-    console.log(userArray)
 
-
+useEffect(()=>{
+    spot
+},[spot])
     const [isLoaded, setIsLoaded] = useState(false)
 
     useEffect(() => {
@@ -26,17 +27,16 @@ function ManageSpots() {
             await dispatch(getAllSpotsThunk());
             setIsLoaded(true)
         }
-        if (!isLoaded) {
+        if(!isLoaded){
             getAllSpots()
         }
+        
 
-    }, [isLoaded, dispatch])
+    }, [isLoaded, dispatch]);
 
     if (!isLoaded) {
         return <h1>loading</h1>
     } else {
-        console.log("object")
-
         return (
             <>
                 <h1>Manage Spots</h1>

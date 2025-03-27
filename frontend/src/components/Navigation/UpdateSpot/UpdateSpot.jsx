@@ -12,38 +12,39 @@ function UpdateSpot() {
     const dispatch = useDispatch();
     const { id } = useParams()
 
-
+    const spot = useSelector((state)=>state.spots.byId[id])
     const userId = useSelector((state) => state.session.user.id)
-    const spot = useSelector((state) => state.spots.byId[id])
-    
-
-    const [country, setCountry] = useState(spot.country)
-    const [address, setAddress] = useState(spot.address)
-    const [city, setCity] = useState(spot.city)
-    const [state, setState] = useState(spot.state)
-    const [lat, setLat] = useState(spot.lat)
-    const [lng, setLng] = useState(spot.lng)
-    const [description, setDescription] = useState(spot.description)
-    const [name, setName] = useState(spot.name)
-    const [price, setPrice] = useState(spot.price)
-    const [previewImage, setPreviewImage] = useState(spot.previewImage)
-    const [images, setImages] = useState(spot.images)
     const [isLoaded, setIsLoaded] = useState(false)
 
-    const [errors, setErrors] = useState({})
-
-    useEffect(() => {
+    
+    const [country, setCountry] = useState('')
+    const [address, setAddress] = useState('')
+    const [city, setCity] = useState('')
+    const [state, setState] = useState('')
+    const [lat, setLat] = useState(null)
+    const [lng, setLng] = useState(null)
+    const [description, setDescription] = useState('')
+    const [name, setName] = useState('')
+    const [price, setPrice] = useState(1)
+    const [previewImage, setPreviewImage] = useState('')
+    const [images, setImages] = useState('')
+    const [errors,setErrors] = useState({})
+    const [initiateForm,setInitiateForm] = useState(false)
+    // const [isLoaded, setIsLoaded] = useState(false)
+    
+    
+    useEffect(()=>{
         const getAllSpots = async () => {
             await dispatch(getAllSpotsThunk());
             setIsLoaded(true)
-            console.log('beep')
         }
         if (!isLoaded) {
             getAllSpots()
-            console.log('Boop')
         }
-
-
+    },[isLoaded,dispatch])
+    
+    
+    useEffect(() => {
         const newErrors = {};
         if (!country) {
             newErrors.country = "Required"
@@ -108,14 +109,30 @@ function UpdateSpot() {
             newErrors.images = "Your image needs to end with .png, .jpeg or .jpg"
         }
         setErrors(newErrors);
+        
 
-    }, [isLoaded, dispatch, country, address, city, state, lat, lng, description, name, price, previewImage, images, errors])
+    }, [initiateForm,isLoaded,country, address, city, state, lat, lng, description, name, price, previewImage, images])
 
-
+    
+        if(isLoaded && !initiateForm){
+            setCountry(spot.country);
+            setAddress(spot.address);
+            setCity(spot.city);
+            setState(spot.state);
+            setLat(spot.lat);
+            setLng(spot.lng);
+            setDescription(spot.description);
+            setName(spot.name);
+            setPrice(spot.price)
+            setPreviewImage(spot.previewImage);
+            setImages(spot.images)
+            setInitiateForm(true)
+        }
+    
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('booped the booper')
-        return dispatch(updateSpotThunk({ userId, country, address, city, state, lat, lng, description, name, price, previewImage, images },id))
+        
+        return dispatch(updateSpotThunk({ userId, country, address, city, state, lat, lng, description, name, price, previewImage, images },id) && navigate('/spots/current'))
     }
     if (!isLoaded) {
         return <h1>Loading</h1>

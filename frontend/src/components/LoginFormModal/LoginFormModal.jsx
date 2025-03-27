@@ -11,7 +11,12 @@ function LoginFormModal() {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
-
+  
+  const handleDemo = (e) => {
+    e.preventDefault();
+    setCredential('demo@user.io')
+    setPassword('password')
+  }
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors({});
@@ -51,6 +56,9 @@ function LoginFormModal() {
           <p>{errors.credential}</p>
         )}
         <button type="submit">Log In</button>
+        <button
+        onClick={(e) => handleDemo(e)}
+        >Demo User Login</button>
       </form>
     </>
   );
