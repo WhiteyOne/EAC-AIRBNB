@@ -151,19 +151,22 @@ const spotsReducer = (state = initialState, action)=>{
             }
             newState.byId = newByIdGetAllSpots
             return newState;
-
-//  this is all my spots for the logged in user
-       
+//This is my specific spot
+            case SET_SPOT_DETAILS:
+                const spot = action.payload
+                newState = {...state}
+                newState.byId = spot
+                return newState
 // This is all my spots after I deleted the data
         case DELETE_A_SPOT:
             newState = {...state}
             let spotId = action.payload
             
             let newById = {...newState.byId}
-            delete newById[spot.id]
+            delete newById[spotId]
             newState.byId = newById
             const newAllSpots = newState.allSpots.filter(filteredSpot => {
-                return filteredSpot.id !== spot.id
+                return filteredSpot.id !== spotId
             })
             newState.allSpots = newAllSpots;
             return newState;

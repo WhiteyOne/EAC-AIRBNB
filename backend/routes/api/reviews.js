@@ -45,7 +45,6 @@ router.get('/current', requireAuth, async (req, res, next) => {
 // Get all reviews for a Spot by Spot ID
 router.get('/:spotId/reviews', async (req, res, next) => {
     try {
-        
         const { spotId } = req.params;
 
         const spot = await Spot.findByPk(spotId);

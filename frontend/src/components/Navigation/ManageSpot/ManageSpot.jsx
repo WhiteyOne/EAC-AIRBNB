@@ -15,11 +15,11 @@ function ManageSpots({spot}) {
             return spot
         }
     })
-
-useEffect(()=>{
-    spot
-},[spot])
     const [isLoaded, setIsLoaded] = useState(false)
+
+// useEffect(()=>
+
+// }
 
     useEffect(() => {
         const getAllSpots = async () => {

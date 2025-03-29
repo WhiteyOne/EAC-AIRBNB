@@ -19,7 +19,6 @@ function Navigation({ isLoaded }) {
                 </div>
 
             </div>
-            <h1>Light Switch</h1>
             <div className='right-side-nav'>
                 {sessionUser && (
                         <a className='create-spot-link'>

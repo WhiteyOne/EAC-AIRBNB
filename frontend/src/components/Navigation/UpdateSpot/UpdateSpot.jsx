@@ -125,7 +125,7 @@ function UpdateSpot() {
             setName(spot.name);
             setPrice(spot.price)
             setPreviewImage(spot.previewImage);
-            setImages(spot.images)
+            setImages()
             setInitiateForm(true)
         }
     

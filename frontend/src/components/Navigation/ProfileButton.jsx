@@ -1,12 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { FaUserCircle } from 'react-icons/fa';
+import { FaUserCircle} from 'react-icons/fa';
 import * as sessionActions from '../../store/session';
 import OpenModalMenuItem from './OpenModalMenuItem';
 import LoginFormModal from '../LoginFormModal';
 import SignupFormModal from '../SignupFormModal';
 import './ProfileButton.css'
 import { NavLink, useNavigate } from 'react-router-dom';
+import { AiFillDatabase } from "react-icons/ai";
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
@@ -40,7 +41,6 @@ function ProfileButton({ user }) {
     dispatch(sessionActions.logout());
     closeMenu();
     navigate('/')
-    
   };
 
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
@@ -48,7 +48,10 @@ function ProfileButton({ user }) {
   return (
     <>
       <button onClick={toggleMenu}>
+      <div className='profile-btn-cont'>
+        <AiFillDatabase/>
         <FaUserCircle />
+      </div>
       </button>
       <ul className={ulClassName} ref={ulRef}>
         {user ? (

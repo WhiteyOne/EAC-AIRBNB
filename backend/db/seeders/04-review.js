@@ -15,55 +15,55 @@ module.exports = {
       {
         spotId: 1,
         userId: 1,
-        review: "Amazing place! Had a wonderful stay.",
+        review: "1 1 Amazing place! Had a wonderful stay.",
         stars: 5
       },
       {
         spotId: 1,
         userId: 2,
-        review: "Decent stay, but could be cleaner.",
+        review: " 1 2 Decent stay, but could be cleaner.",
         stars: 3
       },
       {
         spotId: 1,
         userId: 3,
-        review: "Great experience, will come back again.",
+        review: " 1 3 Great experience, will come back again.",
         stars: 4
       },
       {
         spotId: 2,
         userId: 1,
-        review: "Great experience, will come back again.",
+        review: "2 1 Great experience, will come back again.",
         stars: 4
       },
       {
         spotId: 2,
         userId: 2,
-        review: "Great experience, will come back again.",
+        review: "2 2 Great experience, will come back again.",
         stars: 4
       },
       {
         spotId: 2,
         userId: 3,
-        review: "Great experience, will come back again.",
+        review: " 2 3 Great experience, will come back again.",
         stars: 4
       },
       {
         spotId: 3,
         userId: 1,
-        review: "Great experience, will come back again.",
+        review: " 3 1Great experience, will come back again.",
         stars: 4
       },
       {
         spotId: 3,
         userId: 2,
-        review: "Great experience, will come back again.",
+        review: " 3 2 Great experience, will come back again.",
         stars: 4
       },
       {
         spotId: 3,
         userId: 3,
-        review: "Great experience, will come back again.",
+        review: "3 3 Great experience, will come back again.",
         stars: 4
       }
     ], { validate: true });

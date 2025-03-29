@@ -24,6 +24,7 @@ function UserSpotCard({ spot }) {
 
     const handleClickUpdate = (e) => {
         e.preventDefault();
+        setShowAlert(!showAlert)
         return navigate(`/spots/${spot.id}/edit`)
     }
 
@@ -62,7 +63,7 @@ function UserSpotCard({ spot }) {
                             <p>{spot.name}</p>
                         </div>
                         <div className='that-spot-buttons-container'>
-                            <button className='update-button button-glammor'
+                            <button className={`${deleteClassName} update-button button-glammor`}
                                 onClick={(e) => handleClickUpdate(e)}
                             >Update</button>
                             
