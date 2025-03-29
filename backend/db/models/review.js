@@ -35,13 +35,14 @@ module.exports = (sequelize, DataTypes) => {
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      references: { model: 'Users', key: 'id' }
+      references: { model: 'Users', key: 'id' },
+
     },
     review: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        len: [1, 200] 
+        len: [1, 200],
       }
     },
     stars: {

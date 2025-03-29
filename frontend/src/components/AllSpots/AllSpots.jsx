@@ -10,7 +10,7 @@ function AllSpots() {
     const dispatch = useDispatch();
 
     const spots = useSelector((state) => state.spots.allSpots)
-    const [isLoaded, setIsLoaded] = useState(false)
+    const [isLoaded, setIsLoaded] = useState()
 
     useEffect(() => {
         const getAllSpots = async () => {

@@ -1,4 +1,4 @@
-
+// frontend/src/store/session.js
 //---IMPORTS----
 import { csrfFetch } from './csrf';
 
@@ -15,9 +15,9 @@ const setUser = (user) => {
     };
 };
 
-const removeUser = () => {ds44
+const removeUser = () => {
     return {
-        type: REMOVE_USE5R
+        type: REMOVE_USER
     };
 };
 //---- Thunks ----

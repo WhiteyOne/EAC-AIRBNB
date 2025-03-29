@@ -1,8 +1,34 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
 import './SpotCard.css'
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { getReviewsForSpotThunk } from "../../../store/review";
+import { getAllSpotsThunk } from "../../../store/spot";
+
+
 
 function SpotCard({ spot, idx }) {
+    const {spotId} = useParams()
+    const [isLoaded, setIsLoaded] = useState();
+    const dispatch = useDispatch();
+
+useEffect(() => {
+        const getCurrentReviews = async () => {
+            await dispatch(getReviewsForSpotThunk(spotId));
+            setIsLoaded(true)
+        }
+        const getAllSpots = async () => {
+
+            await dispatch(getAllSpotsThunk());
+            setIsLoaded(true)
+        }
+        if (!isLoaded) {
+            getAllSpots();
+            getCurrentReviews();
+        }
+
+    }, [isLoaded, dispatch])
     return (
         <>
             <div className='per-spot-container' key={`${spot.id}--${idx}`}>

@@ -7,7 +7,7 @@ import './Navigation.css';
 
 function Navigation({ isLoaded }) {
     const sessionUser = useSelector(state => state.session.user);
-
+    
     return (
         <ul className='nav-container'>
             <div>
@@ -19,7 +19,6 @@ function Navigation({ isLoaded }) {
                 </div>
 
             </div>
-            <h1>Light Switch</h1>
             <div className='right-side-nav'>
                 {sessionUser && (
                         <a className='create-spot-link'>

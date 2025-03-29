@@ -1,16 +1,19 @@
 .nav-container{
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    align-items: center;
+    justify-content: space-around;
+
+    align-items: end;
+    border-bottom: 5px solid orange;
+    width: 100%;
 }
 .right-side-nav{
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 10px;
+    
 }
+
 .splash-nav-links{
     display: flex;
     flex-direction:row;

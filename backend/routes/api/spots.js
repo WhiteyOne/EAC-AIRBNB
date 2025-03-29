@@ -148,6 +148,9 @@ router.get('/', async (req, res, next) => {
 
             include: [{
                 model:SpotImage,
+        },{
+            model:User,
+            as:"Owner"
         }],
         ...paginationObj
 })
@@ -160,7 +163,7 @@ router.get('/', async (req, res, next) => {
             for(let review of reviews){
                 aveReview += review.stars;
             }
-            spotBody.aveReview = aveReview;
+            spotBody.aveReview = aveReview/reviews.length;
 
             if(spotBody.SpotImages && spotBody.SpotImages.length > 0){
                 spotBody.previewImage = spotBody.SpotImages[0].url;
@@ -200,6 +203,7 @@ router.get('/current', async (req, res, next) => {
             include:[{
                 model:SpotImage,
             },
+            
         ]
         })
         
@@ -283,7 +287,7 @@ router.get('/:spotId', async (req, res, next) => {
             prettyBody.createdAt = spotBody.createdAt;
             prettyBody.updatedAt = spotBody.updatedAt;
             prettyBody.numReviews = numReviews;
-            prettyBody.aveReview = aveReview;
+            prettyBody.aveReview = aveReview/reviews.length;
             prettyBody.SpotImages = spotBody.SpotImages;
             prettyBody.Owner = spotBody.Owner;
 
@@ -326,10 +330,16 @@ router.get('/:spotId/reviews', async (req, res, next) => {
            if(!updatedReview.ReviewImage){
             delete updatedReview.ReviewImage;
            }
+           
             updatedReviews.push(updatedReview);
         }
+        if(updatedReviews.length === 0){
+            return res.json([])
+        }else{
+            return res.json({ Reviews: updatedReviews.reverse()});
+        }
 
-        return res.json({ Reviews: updatedReviews });
+        
     } catch (error) {
         next(error);
     }
@@ -439,10 +449,14 @@ router.post('/:spotId/reviews',validateReview, async (req, res, next) => {
         }
         const userReview = await Review.findOne({
             where: {
-                userId: userId
+                userId: userId,
+                spotId: spotId
             }
         })
+
+        
         if(!userReview){
+            
             const newReview = await Review.create({ userId, spotId, userId, review, stars });
             res.status(201)
             return res.json(newReview);

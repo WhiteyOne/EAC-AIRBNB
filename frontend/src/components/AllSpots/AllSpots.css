@@ -1,11 +1,5 @@
-.spot-container{
-    margin-inline:5%;
-    display: flex;
-    justify-content: center;
-    flex-direction: row;
-    flex-wrap:wrap;
-    width: 100%;
-    height: 100%;
+.per-spot-container{
+    padding-bottom: 25px;
 
 }
 
