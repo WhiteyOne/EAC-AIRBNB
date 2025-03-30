@@ -17,9 +17,7 @@ function ManageSpots({spot}) {
     })
     const [isLoaded, setIsLoaded] = useState(false)
 
-// useEffect(()=>
-
-// }
+    
 
     useEffect(() => {
         const getAllSpots = async () => {

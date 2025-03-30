@@ -4,3 +4,43 @@
 button{
     cursor: pointer;
 }
+.profile-dropdown{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-right: 25px;
+    border-style: solid;
+    align-content: center;
+    height: 7.5rem;
+}
+
+.right-side-nav{
+    padding-bottom: 5rem;
+}
+ul{
+    list-style-type: none;
+}
+.profile-btn-cont{
+    display: flex;
+}
+.profile-details-card{
+    border-bottom: solid black;
+    padding-bottom: 5px;
+}
+button {
+    color: brown;
+    background-color: orange;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.logout-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 5px;
+}
+a{
+    text-decoration: none;
+    font-weight: bolder;
+}

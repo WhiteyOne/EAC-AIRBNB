@@ -1,6 +1,10 @@
 
+
 .empty-star{
     fill: lightblue;
-    
     border-color: black;
+}
+
+.star-backdrop{
+    display: flex;
 }

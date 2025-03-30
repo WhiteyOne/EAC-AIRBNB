@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { deleteSpotThunk } from '../../../../store/spot';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -8,7 +9,7 @@ function DeleteButton({spot}) {
     const dispatch = useDispatch();
     const [showMenu, setShowMenu] = useState(false);
     const ulRef = useRef();
-
+    const navigate = useNavigate()
     const toggleMenu = (e) => {
         e.stopPropagation(); // Keep from bubbling up to document and triggering closeMenu
         setShowMenu(!showMenu);
@@ -16,7 +17,7 @@ function DeleteButton({spot}) {
 
     useEffect(() => {
         if (!showMenu) return;
-
+        
         
 
         const closeMenu = (e) => {
@@ -36,8 +37,6 @@ function DeleteButton({spot}) {
         e.preventDefault();
         dispatch(deleteSpotThunk(spot.id));
         closeMenu();
-        
-        
     };
 
     const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
