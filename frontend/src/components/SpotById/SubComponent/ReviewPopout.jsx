@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react'
 import './ReviewPopout.css'
-import { getReviewsForSpotThunk } from '../../../store/review';
+import { deleteReviewThunk, getReviewsForSpotThunk } from '../../../store/review';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getAllSpotsThunk } from '../../../store/spot';
-import OpenModalMenuItem from '../../Navigation/OpenModalMenuItem';
 
 function ReviewPopout() {
     const dispatch = useDispatch();
@@ -39,6 +38,12 @@ function ReviewPopout() {
         
     }, [isLoaded, dispatch,spotId])
 
+    const handleDelete= (e,reviewId)=>{
+        e.preventDefault()
+
+        dispatch(deleteReviewThunk(reviewId));
+    }
+
     if (!isLoaded) {
         return (
             <h1>Loading</h1>
@@ -64,7 +69,9 @@ function ReviewPopout() {
                                     <p>{review.review}</p>
                                 </div>
                                 {sessionUser.id === review.userId && (
-                                    <button>
+                                    <button
+                                    onClick={(e)=>handleDelete(e,review.id)}
+                                    >
                                         Delete
                                     </button>
                         )}

@@ -125,7 +125,7 @@ export const deleteSpotThunk = (spotId) => async (dispatch)=>{
        if(res.ok){
         const data = await res.json();
         
-        dispatch(deleteSpotAction())
+        dispatch(deleteSpotAction(data))
         
         return data
        }
@@ -161,7 +161,7 @@ const spotsReducer = (state = initialState, action)=>{
         case DELETE_A_SPOT:
             newState = {...state}
             let spotId = action.payload
-            
+            console.log(spotId)
             let newById = {...newState.byId}
             delete newById[spotId]
             newState.byId = newById

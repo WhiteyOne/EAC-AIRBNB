@@ -2,6 +2,8 @@
     padding-left: 2.5rem;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     border-style: double;
     border-radius: 2rem;
     box-shadow: 3rem;
@@ -11,4 +13,6 @@
     width:1000px
     
 }
-.spec 
+.custom-modal{
+    visibility: hidden;
+}

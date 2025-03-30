@@ -5,7 +5,6 @@ import { NavLink, useParams } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
 import './SpotById.css'
 import ReviewPopout from "./SubComponent";
-import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
 import SubReview from "./SubComponent/SubReview";
 import { getReviewsForSpotThunk } from "../../store/review";
 
@@ -17,60 +16,59 @@ function SpotById() {
     const dispatch = useDispatch();
     const sessionUser = useSelector(state => state.session.user);
     const ulRef = useRef();
-    
     const spot = useSelector((state) => state.spots.byId[spotId])
     const reviews = useSelector((state) => state.reviews.allCurrentReviews)
-    const reviewsById = useSelector((state) => state.reviews.reviewsBySpotId[sessionUser.id])
-    
+
     // const userReview = useSelector((state)=> state.reviews.reviewsByCurrentId)
-    
-    
-    
+
+
+
     const [isLoaded, setIsLoaded] = useState(false)
     const [showMenu, setShowMenu] = useState(false);
-    
+    const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
+
 
     const toggleMenu = (e) => {
-        e.stopPropagation(); 
+        e.stopPropagation();
         setShowMenu(!showMenu);
     };
-    
-    
-    
+
+
+
     useEffect(() => {
         const getData = async () => {
             await dispatch(getReviewsForSpotThunk(spotId));
             await dispatch(getAllSpotsThunk());
             setIsLoaded(true)
         }
-       
+
         if (!isLoaded) {
-             getData()
+            getData()
         }
-        
-    }, [isLoaded, dispatch,spotId])
+
+    }, [isLoaded, dispatch, spotId])
 
     useEffect(() => {
         if (!showMenu) return;
-        
-        const closseMenu = (e) => {
+
+        const closeMenu = (e) => {
             if (!ulRef.current.contains(e.target)) {
                 setShowMenu(false);
             }
         };
-       
-        
+
+
         document.addEventListener('click', closeMenu);
-    
+
         return () => document.removeEventListener("click", closeMenu);
-      }, [showMenu]);
-    
-      const closeMenu = () => setShowMenu(false);
-    
+    }, [showMenu]);
+
+    const closeMenu = () => setShowMenu(false);
+
     if (!isLoaded) {
         return <h1>Loading</h1>
     } else {
-        
+
         return (
             <>
                 <div className="spot-details-card">
@@ -100,7 +98,7 @@ function SpotById() {
                         <div className="spec-reserve-container">
                             <h3>{`$${spot.price} /night`}</h3>
                             <FaStar />
-                            <a>{`${`${reviews.length? reviews.length: 'No'} Reviews`}`}</a>
+                            <a>{`${`${reviews.length ? reviews.length : 'No'} Reviews`}`}</a>
                             {sessionUser && (
                                 <NavLink
                                     to="/bookings"
@@ -114,24 +112,25 @@ function SpotById() {
                                 <a>{spot.aveReview ? `${spot.aveReview} Average - ${reviews.length} Reviews` : `New`}</a>
                             </div>
                         </div>
-                            
-                            <>
-                      
+
+                        <>
+
                             <div >
 
-                            <button className={toggleMenu} ref={ulRef}>
-                                Leave a Review
-                            
-                                    <SubReview/>
-
-                                    
-                            </button>
+                                <button
+                                    onClick={(e) => { toggleMenu(e) }}
+                                >
+                                    Leave a Review
+                                </button>
+                                <div className={ulClassName} >
+                                    <SubReview />
+                                </div>
 
                             </div>
-                            </>
-                        
-                        
-                        <ReviewPopout/>
+                        </>
+
+
+                        <ReviewPopout />
                     </div>
                 </div>
 

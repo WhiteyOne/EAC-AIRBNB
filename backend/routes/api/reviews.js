@@ -48,6 +48,7 @@ router.get('/:spotId/reviews', async (req, res, next) => {
         const { spotId } = req.params;
 
         const spot = await Spot.findByPk(spotId);
+        
         if (!spot) throw new ErrorHandler("Spot couldn't be found", 404);
 
         const reviews = await Review.findAll({
@@ -57,10 +58,7 @@ router.get('/:spotId/reviews', async (req, res, next) => {
                 { model: ReviewImage, attributes: ['id', 'url'] }
             ]
         });
-        reviews.forEach(review => {
-            review.dataValues.createdAt = formatDate(review.createdAt);
-            review.dataValues.updatedAt = formatDate(review.updatedAt);
-        });
+       
 
         return res.json({ Reviews: reviews });
     } catch (error) {
@@ -157,7 +155,7 @@ router.put('/:reviewId', requireAuth, async (req, res, next) => {
 });
 
 //  Delete a Review
-router.delete('/:reviewId', requireAuth, async (req, res, next) => {
+router.delete('/:reviewId', async (req, res, next) => {
     try {
         const { reviewId } = req.params;
         const userId = req.user.id;

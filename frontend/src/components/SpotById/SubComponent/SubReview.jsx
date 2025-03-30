@@ -2,7 +2,9 @@ import { useEffect, useState } from "react"
 import { FaStar } from "react-icons/fa"
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { createReviewThunk } from "../../../store/review";
+import { createReviewThunk, getReviewsForSpotThunk } from "../../../store/review";
+import { getAllSpotsThunk } from "../../../store/spot";
+
 
 function SubReview() {
     const dispatch = useDispatch();
@@ -53,9 +55,7 @@ function SubReview() {
         }
         setErrors(newErrors)
     }, [stars, review])
-    if (!isLoaded) {
-        <h1>loading</h1>
-    } else {
+   
 
 
         return (
@@ -101,9 +101,9 @@ function SubReview() {
                             >
                                 <FaStar className={stars >= 5 ? 'fill-star' : 'empty-star'} />
                             </button>
+                        </div>
                             <h1>{stars}</h1>
                             <p>{errors.stars}</p>
-                        </div>
                         <button
                         type="submit"
                         disabled={Object.values(errors).length ? true : false}
@@ -115,6 +115,6 @@ function SubReview() {
             </>
 
         )
-    }
+    
 }
 export default SubReview;

@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { FaUserCircle} from 'react-icons/fa';
+import { FaUserCircle } from 'react-icons/fa';
 import * as sessionActions from '../../store/session';
 import OpenModalMenuItem from './OpenModalMenuItem';
 import LoginFormModal from '../LoginFormModal';
@@ -48,22 +48,28 @@ function ProfileButton({ user }) {
   return (
     <>
       <button onClick={toggleMenu}>
-      <div className='profile-btn-cont'>
-        <AiFillDatabase/>
-        <FaUserCircle />
-      </div>
+        <div className='profile-btn-cont'>
+          <AiFillDatabase />
+          <FaUserCircle />
+        </div>
       </button>
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
           <>
-            <li>{user.username}</li>
-            <li>{user.firstName} {user.lastName}</li>
-            <li>{user.email}</li>
+            <div className='profile-details-card'>
+              <li>{user.username}</li>
+              <li>{user.firstName} {user.lastName}</li>
+              <li>{user.email}</li>
+            </div>
             {user && (
-            <NavLink to={'/spots/current'}>Manage Spots</NavLink>
+              <div className='profile-details-card'>
+                <NavLink to={'/spots/current'}>Manage Spots</NavLink>
+              </div>
             )}
             <li>
+            <div className='logout-btn'>
               <button onClick={logout}>Log Out</button>
+            </div>
             </li>
           </>
         ) : (
