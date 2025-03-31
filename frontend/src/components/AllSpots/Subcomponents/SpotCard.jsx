@@ -28,7 +28,7 @@ useEffect(() => {
             getCurrentReviews();
         }
 
-    }, [isLoaded, dispatch])
+    }, [isLoaded, dispatch,spotId])
     return (
         <>
             <div className='per-spot-container' key={`${spot.id}--${idx}`}>

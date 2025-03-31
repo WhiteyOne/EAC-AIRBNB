@@ -4,6 +4,7 @@ import './CreateSpot.css'
 import { useDispatch, useSelector } from "react-redux";
 import { createSpotThunk } from "../../../store/spot";
 import { getAllSpotsThunk } from "../../../store/spot";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -11,7 +12,7 @@ import { getAllSpotsThunk } from "../../../store/spot";
 function CreateSpot() {
     // const navigate = useNavigate();
     const dispatch = useDispatch();
-
+    const navigate = useNavigate()
 
     const userId = useSelector((state)=>state.session.user.id)
     // const spots = useSelector((state) => state.spots.allSpots)
@@ -53,7 +54,7 @@ function CreateSpot() {
         }
 
         if (!address) {
-            newErrors.address = "Required"
+             newErrors.address = "Required"
         }else if (address.length < 3 || address.length > 100) {
             newErrors.address = "Address should be more then 3 characters and less then 100 characters"
         }
@@ -109,7 +110,8 @@ function CreateSpot() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        return await dispatch(createSpotThunk({userId,country, address, city, state, lat, lng, description, name, price, previewImage,images}))
+        await dispatch(createSpotThunk({userId,country, address, city, state, lat, lng, description, name, price, previewImage,images}))
+        navigate('/')
     }
     if(!isLoaded){
         return <h1>Loading</h1>
@@ -153,6 +155,7 @@ function CreateSpot() {
                                 value={address}
                                 placeholder="street address"
                                 onChange={(e) => setAddress(e.target.value)}
+                                
                             />
                         </label>
                     </div>
@@ -215,7 +218,7 @@ function CreateSpot() {
                             value={description}
                             placeholder="why is this spot amazing"
                             onChange={(e) => setDescription(e.target.value)}
-                            
+                            style={{height:"100px",width:"300px"}}
                         />
                         <p style={{fontSize:13,color:"gray"}}>{errors.description}</p>
                     </label>

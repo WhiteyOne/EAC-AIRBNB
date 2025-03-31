@@ -11,24 +11,23 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    
+    width: 600px;
 }
 
 .splash-nav-links{
     display: flex;
     flex-direction:row;
     justify-content: spa;
-    width: 40px;
+    width: 60px;
     height: 40px;
     padding: 10px ;
     margin-right: 7rem;
     
 }
 .create-spot-link{
-    width: 7rem;
+    width: 50px
     border-style: groove;
     text-align: center;
     border-style: hidden;
-    
     
 }

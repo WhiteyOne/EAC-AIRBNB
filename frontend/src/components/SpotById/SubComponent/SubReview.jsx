@@ -1,32 +1,35 @@
 import { useEffect, useState } from "react"
 import { FaStar } from "react-icons/fa"
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { createReviewThunk, getReviewsForSpotThunk } from "../../../store/review";
-import { getAllSpotsThunk } from "../../../store/spot";
+import { getSpotById } from "../../../store/spot";
 
 
 function SubReview() {
     const dispatch = useDispatch();
-    const sessionUser = useSelector(state => state.session.user);
+    // const sessionUser = useSelector(state => state.session.user);
     const { spotId } = useParams();
     const [review, setReview] = useState('');
     const [stars, setStars] = useState(0);
     const [errors, setErrors] = useState({});
+    const [showMenu, setShowMenu] = useState(false)
     const [isLoaded, setIsLoaded] = useState(false)
 
     useEffect(() => {
         const getData = async () => {
             await dispatch(getReviewsForSpotThunk(spotId));
-            await dispatch(getAllSpotsThunk());
             setIsLoaded(true)
         }
         if (!isLoaded) {
             getData()
-          
+
+        }
+        if (showMenu) {
+            return;
         }
 
-    }, [isLoaded, dispatch, spotId])
+    }, [isLoaded, dispatch, spotId, showMenu])
 
     const starClicker = (e, num) => {
         e.preventDefault()
@@ -36,10 +39,20 @@ function SubReview() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(spotId, "this is inside my handleSubmit")
-        return dispatch(createReviewThunk({ review, stars,spotId }), )
-
+        dispatch(createReviewThunk({ review, stars, spotId }),)
+        setShowMenu(false)
     }
+    useEffect(() => {
+        const getData = async () => {
+            await dispatch(getSpotById(spotId));
+            setIsLoaded(true)
+        }
+
+        if (!isLoaded) {
+            getData()
+        }
+
+    }, [isLoaded, dispatch, spotId])
 
     useEffect(() => {
         const newErrors = {}
@@ -55,66 +68,80 @@ function SubReview() {
         }
         setErrors(newErrors)
     }, [stars, review])
-   
 
 
-        return (
-            <>
 
-                <div className='review-input-card'>
+    return (
+        <>
+            <button
+                onClick={() => setShowMenu(!showMenu)}
+            >
+                Leave a Review
+            </button>
+            <div className={showMenu ? 'review-input-card' : "hidden"}>
+
+
+                <form
+                    className="form-container"
+                    onSubmit={(e) => handleSubmit(e)}
+                >
+                    <div className="this-my-x">
+                        <button className="btn-x"
+                            onClick={() => setShowMenu(!showMenu)}
+                        >X</button>
+                    </div>
                     <div className='review-title-container'>
                         <h2>How was your stay?</h2>
                     </div>
-                    <form
-                        onSubmit={(e) => handleSubmit(e)}
-                    >
-                        <p>{errors.review}</p>
-                        <input
-                            type='text'
-                            placeholder='Leave your review here!'
-                            value={review}
-                            onChange={(e) => setReview(e.target.value)}
-                        />
-                        <div className='star-backdrop'>
-                            <button
-                                onClick={(e) => starClicker(e, 1)}
-                            >
-                                <FaStar className={stars >= 1 ? 'fill-star' : 'empty-star'} />
-                            </button>
-                            <button
-                                onClick={(e) => starClicker(e, 2)}
-                            >
-                                <FaStar className={stars >= 2 ? 'fill-star' : 'empty-star'} />
-                            </button>
-                            <button
-                                onClick={(e) => starClicker(e, 3)}
-                            >
-                                <FaStar className={stars >= 3 ? 'fill-star' : 'empty-star'} />
-                            </button>
-                            <button
-                                onClick={(e) => starClicker(e, 4)}
-                            >
-                                <FaStar className={stars >= 4 ? 'fill-star' : 'empty-star'} />
-                            </button>
-                            <button
-                                onClick={(e) => starClicker(e, 5)}
-                            >
-                                <FaStar className={stars >= 5 ? 'fill-star' : 'empty-star'} />
-                            </button>
-                        </div>
-                            <h1>{stars}</h1>
-                            <p>{errors.stars}</p>
+
+                    <p>{errors.review}</p>
+                    <input
+                        type='text'
+                        placeholder='Leave your review here!'
+                        value={review}
+                        onChange={(e) => setReview(e.target.value)}
+                    />
+                    <div className='star-backdrop'>
                         <button
+                            onClick={(e) => starClicker(e, 1)}
+                        >
+                            <FaStar className={stars >= 1 ? 'fill-star' : 'empty-star'} />
+                        </button>
+                        <button
+                            onClick={(e) => starClicker(e, 2)}
+                        >
+                            <FaStar className={stars >= 2 ? 'fill-star' : 'empty-star'} />
+                        </button>
+                        <button
+                            onClick={(e) => starClicker(e, 3)}
+                        >
+                            <FaStar className={stars >= 3 ? 'fill-star' : 'empty-star'} />
+                        </button>
+                        <button
+                            onClick={(e) => starClicker(e, 4)}
+                        >
+                            <FaStar className={stars >= 4 ? 'fill-star' : 'empty-star'} />
+                        </button>
+                        <button
+                            onClick={(e) => starClicker(e, 5)}
+                        >
+                            <FaStar className={stars >= 5 ? 'fill-star' : 'empty-star'} />
+                        </button>
+                    </div>
+                    <h1>{stars}</h1>
+                    <p>{errors.stars}</p>
+                    <button
                         type="submit"
                         disabled={Object.values(errors).length ? true : false}
-                        >Submit Review</button>
-                    </form>
+                    >Submit Review</button>
+                </form>
 
 
-                </div>
-            </>
 
-        )
-    
+            </div>
+        </>
+
+    )
+
 }
 export default SubReview;

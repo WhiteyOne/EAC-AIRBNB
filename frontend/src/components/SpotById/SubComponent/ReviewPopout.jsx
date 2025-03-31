@@ -3,7 +3,7 @@ import './ReviewPopout.css'
 import { deleteReviewThunk, getReviewsForSpotThunk } from '../../../store/review';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getAllSpotsThunk } from '../../../store/spot';
+import { getSpotById } from '../../../store/spot';
 
 function ReviewPopout() {
     const dispatch = useDispatch();
@@ -11,34 +11,32 @@ function ReviewPopout() {
     const reviews = useSelector((state) => state.reviews.allCurrentReviews)
     const sessionUser = useSelector(state => state.session.user);
 
-
+    const modalClass = `modal-background`
     const [isLoaded, setIsLoaded] = useState(false)
+    const [openMenu, setOpenMenu] = useState(false)
 
-    const [showMenu, setShowMenu] = useState(false);
-
-    const toggleMenu = (e) => {
-        e.stopPropagation();
-        setShowMenu(!showMenu);
-    };
-
-
-
-    const closeMenu = () => setShowMenu(false);
+    useEffect(() => {
+        if (openMenu) {
+            setOpenMenu(true)
+        } if (!openMenu) {
+            setOpenMenu(false)
+        }
+    },[openMenu])
 
     useEffect(() => {
         const getData = async () => {
             await dispatch(getReviewsForSpotThunk(spotId));
-            await dispatch(getAllSpotsThunk());
-            setIsLoaded(true)
+            await dispatch(getSpotById(spotId))
+            setIsLoaded(true);
         }
-       
-        if (!isLoaded) {
-             getData()
-        }
-        
-    }, [isLoaded, dispatch,spotId])
 
-    const handleDelete= (e,reviewId)=>{
+        if (!isLoaded) {
+            getData()
+        }
+
+    }, [isLoaded, dispatch, spotId])
+
+    const handleDelete = (e, reviewId) => {
         e.preventDefault()
 
         dispatch(deleteReviewThunk(reviewId));
@@ -52,7 +50,7 @@ function ReviewPopout() {
 
         return (
             <>
-                {reviews.length > 0 && (
+                {reviews.length && (
 
 
                     <div className='reviews-container'>
@@ -68,19 +66,36 @@ function ReviewPopout() {
                                 <div className='per-review'>
                                     <p>{review.review}</p>
                                 </div>
-                                {sessionUser.id === review.userId && (
-                                    <button
-                                    onClick={(e)=>handleDelete(e,review.id)}
-                                    >
-                                        Delete
-                                    </button>
-                        )}
+                                {sessionUser && sessionUser.id === review.userId && (
+                                    <div>
+                                        <button
+                                            onClick={() => setOpenMenu(true)}
+                                        >Delete Review</button>
+                                        <div className={`delete-card ${openMenu ? modalClass : 'hidden'}`}>
+                                        <h3>Are you sure you want to Delete this spot?</h3>
+                                        <div className='yes-no'>
+
+                                            <button
+                                                className={openMenu ? modalClass : 'hidden'}
+                                                onClick={(e) => handleDelete(e, review.id)}
+                                            >
+                                                Yes
+                                            </button>
+
+                                        <button
+                                            onClick={() => setOpenMenu(!openMenu)}
+                                        >No</button>
+                                        </div>
+                                        </div>
+
+                                    </div>
+                                )}
                             </>
                         ))}
                     </div>
                 )
                 }
-                {reviews.length === 0 && (
+                {!reviews.length && (
                     <h2>Be the first to leave a Review.</h2>
 
                 )

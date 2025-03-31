@@ -1,15 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { deleteSpotThunk } from '../../../../store/spot';
-import { useNavigate } from 'react-router-dom';
-
+import "./UserSPotCard.css"
 
 
 function DeleteButton({spot}) {
     const dispatch = useDispatch();
     const [showMenu, setShowMenu] = useState(false);
     const ulRef = useRef();
-    const navigate = useNavigate()
+   
     const toggleMenu = (e) => {
         e.stopPropagation(); // Keep from bubbling up to document and triggering closeMenu
         setShowMenu(!showMenu);
@@ -46,17 +45,20 @@ function DeleteButton({spot}) {
             <button onClick={toggleMenu}>
                 Delete
             </button>
-            <ul className={ulClassName} ref={ulRef}>
+            <div className={ulClassName + " popout-delete"} ref={ulRef}>
+
+            <ul className='delete-window'>
                 <div>
                     <h3>Are you sure you wish to delete this spot?</h3>
                 </div>
-                <div>
+                <div className='delete-confirm-btn'>
                     <button
                     onClick={(e)=> deleteSpot(e)}
                     >Yes</button>
                     <button onClick={(e)=> closeMenu(e)}>No</button>
                 </div>
             </ul>
+            </div>
         </>
     );
 }
