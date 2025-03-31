@@ -5,7 +5,7 @@ import UserSpotCard from "./Subcomponent";
 
 
 
-function ManageSpots({spot}) {
+function ManageSpots() {
     const dispatch = useDispatch();
 
     const spots = useSelector((state) => state.spots.allSpots)

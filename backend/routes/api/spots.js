@@ -245,6 +245,7 @@ router.get('/:spotId', async (req, res, next) => {
     try {
         const spotId = req.params.spotId;
         const thisSpot = await Spot.findByPk(spotId);
+       
         if(!thisSpot){
             const err = new noResourceError("Spot couldn't be found", 404);
             err.throwThis();
@@ -253,7 +254,11 @@ router.get('/:spotId', async (req, res, next) => {
         const spots = await Spot.findAll({where:{id:spotId}, include: [{
             model:SpotImage,
             attributes:{exclude:['spotId','createdAt','updatedAt']}
-        },{
+        },
+        {
+            model:Review
+        },
+        {
             model:User,
             as:"Owner",
             attributes: {exclude:['username','email','hashedPassword','createdAt','updatedAt']}
@@ -267,7 +272,9 @@ router.get('/:spotId', async (req, res, next) => {
             const reviews = await Review.findAll({ where: {spotId:spotBody.id}});
             let aveReview = 0;
             let numReviews = 0;
+            let prettyReview = []
             for(let review of reviews){
+                prettyReview.push(review)
                 aveReview += review.stars;
                 numReviews ++;
             }
@@ -289,6 +296,7 @@ router.get('/:spotId', async (req, res, next) => {
             prettyBody.numReviews = numReviews;
             prettyBody.aveReview = aveReview/reviews.length;
             prettyBody.SpotImages = spotBody.SpotImages;
+            prettyBody.Review = prettyReview
             prettyBody.Owner = spotBody.Owner;
 
             spotBody.SpotImages = spotBody.SpotImages;
@@ -524,7 +532,7 @@ router.delete('/:spotId', async (req, res, next) => {
         }
 
         await spotToDelete.destroy();
-        return res.json({ message: "Spot deleted successfully" })
+        return res.json(spotToDelete)
 
     } catch (error) {
         next(error)

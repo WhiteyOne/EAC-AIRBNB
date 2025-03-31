@@ -2,17 +2,54 @@
     padding-left: 2.5rem;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
     border-style: double;
     border-radius: 2rem;
     box-shadow: 3rem;
     max-width: 1000px;
+    border-bottom: hidden;
 }
 .spec-imag-container-main{
-    width:1000px
-    
+    display: flex;
+    justify-content: center;
+    width:1000px;
+}
+
+.spec-imag-container-main img{
+   width: 400px;
+   height: 15rem;
 }
 .custom-modal{
     visibility: hidden;
+}
+.bottom-review-container{
+    border-style: double;
+    width: 300px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+.booking-container{
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-around;
+    align-items: start;
+    width: 1000px;
+
+}
+.reserve-button{
+    display: flex;
+    justify-content: center;
+    padding: 25px;
+    border-style: dotted;
+    margin: 5px 20px 20px 20px;
+    font-size: 25px;
+    background-color: orange;
+    
+}
+.spec-reserve-container{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }

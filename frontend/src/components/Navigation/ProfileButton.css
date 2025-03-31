@@ -8,14 +8,20 @@ button{
     display: flex;
     flex-direction: column;
     justify-content: center;
+    
     padding-right: 25px;
+    padding-left: 25px;
+    margin-left: 10px;
     border-style: solid;
     align-content: center;
     height: 7.5rem;
+    
 }
 
 .right-side-nav{
     padding-bottom: 5rem;
+    width: 200px;
+    height: 100px;
 }
 ul{
     list-style-type: none;
@@ -43,4 +49,8 @@ button {
 a{
     text-decoration: none;
     font-weight: bolder;
+}
+.login-form{
+    display: flex;
+    flex-direction: column;
 }

@@ -15,7 +15,7 @@ const getReviewsAction = (reviews) => {
         payload: reviews
     }
 }
-const deleteReviewAction = (review) => {
+const deleteReviewAction = () => {
     return {
         type: DELETE_PER_REVIEW,
     }
@@ -24,7 +24,8 @@ const deleteReviewAction = (review) => {
 
 export const getReviewsForSpotThunk = (userId) => async (dispatch) => {
     try {
-
+        
+        console.log(userId,"---hello")
         const res = await csrfFetch(`/api/spots/${userId}/reviews/`)
 
         if (res.ok) {
@@ -72,7 +73,6 @@ export const deleteReviewThunk = (reviewId) => async (dispatch) => {
             const data = await res.json();
             
             dispatch(deleteReviewAction())
-            console.log(data)
             return data
            }
     } catch (error) {
@@ -98,8 +98,10 @@ const reviewReducer = (state = initialState, action) => {
             newState.reviewsByCurrentId = newReviewsByCurrentId
             return newState;
         case DELETE_PER_REVIEW:
-            const updatedArray = payload
-            
+            newState = {...state}
+
+
+            return newState
         default:
             return state
     }

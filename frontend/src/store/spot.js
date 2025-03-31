@@ -7,7 +7,6 @@ import { csrfFetch } from "./csrf"
 //----Action Types----
 const SET_SPOT_DATA = "spot/all"
 const SET_SPOT_DETAILS = "spots/details"
-const SET_SPOT_REVIEWS = "spot/reviews"
 const DELETE_A_SPOT = "spot/spotId"
 
 //----Action Creator----
@@ -24,16 +23,11 @@ const getSpotDetailAction = (spot) => {
         payload: spot
     }
 }
-const getSpotReviews = (spotReviews) => {
-    return{
-        type:SET_SPOT_REVIEWS,
-        payload: spotReviews
-    }
-}
-const deleteSpotAction = (spotId) => {
+
+const deleteSpotAction = (spot) => {
     return {
         type:DELETE_A_SPOT,
-        payload: spotId
+        payload: spot
     }
 }
 
@@ -56,6 +50,22 @@ export const getAllSpotsThunk = () => async (dispatch) => {
 
     } catch (e) {
         return e
+    }
+}
+
+export const getSpotById = (spotId) => async (dispatch) => {
+    try {
+        const res = await csrfFetch(`/api/spots/${spotId}`)
+        
+        if(res.ok){
+            const data = await res.json()
+            console.log(data)
+            dispatch(getSpotDetailAction(data))
+        }else {
+            throw res
+        }
+    } catch (error) {
+        console.log(res)
     }
 }
 
@@ -155,21 +165,33 @@ const spotsReducer = (state = initialState, action)=>{
             case SET_SPOT_DETAILS:
                 const spot = action.payload
                 newState = {...state}
-                newState.byId = spot
+                let newCurrentSpotId = {}
+                for(let obj of spot){
+                    newCurrentSpotId[obj.id] = obj
+                }
+                newState.byId = newCurrentSpotId
+                console.log("here")
+                
                 return newState
 // This is all my spots after I deleted the data
         case DELETE_A_SPOT:
-            newState = {...state}
-            let spotId = action.payload
-            console.log(spotId)
-            let newById = {...newState.byId}
-            delete newById[spotId]
-            newState.byId = newById
-            const newAllSpots = newState.allSpots.filter(filteredSpot => {
-                return filteredSpot.id !== spotId
+            newState = {...state};
+
+            let deleteSpot = action.payload;
+
+            let newByIdDelete = {...newState.byId}
+
+            delete newByIdDelete[deleteSpot.id];
+            
+            newState.byId = newByIdDelete;
+
+            const filteredAllSpots = newState.allSpots.filter(filteredSpot=>{
+                return filteredSpot.id !== deleteSpot.id
             })
-            newState.allSpots = newAllSpots;
-            return newState;
+
+            newState.allSpots= filteredAllSpots;
+
+            return newState
         default:
             return state;
     }
