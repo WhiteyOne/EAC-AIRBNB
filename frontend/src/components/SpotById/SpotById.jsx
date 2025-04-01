@@ -6,6 +6,7 @@ import { FaStar } from "react-icons/fa";
 import './SpotById.css'
 import ReviewPopout from "./SubComponent";
 import SubReview from "./SubComponent/SubReview";
+import { getReviewsForSpotThunk } from "../../store/review";
 
 
 
@@ -16,39 +17,40 @@ function SpotById() {
     const sessionUser = useSelector(state => state.session.user);
     const spot = useSelector((state) => state.spots.byId[spotId])
 
-    console.log(spot, "----- this is my spot")
-    // const userReview = useSelector((state)=> state.reviews.reviewsByCurrentId)
+    
+    const userReview = useSelector((state)=> state.reviews.reviewsBySpotId)
 
 
-
+    const [userHasReview,setUserHasReview] = useState(false)
     const [isLoaded, setIsLoaded] = useState(false)
-    // const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
-
-
-
-
-
-
-
+    
+    
+    
+    useEffect(()=> {
+        if(userReview[sessionUser.id]){
+            setUserHasReview(true)
+        }else if(!userReview[sessionUser.id]){
+            setUserHasReview(false)
+        }
+    },[sessionUser,userReview])
+    
     useEffect(() => {
         const getData = async () => {
             await dispatch(getSpotById(spotId));
+            await dispatch(getReviewsForSpotThunk(spotId))
             setIsLoaded(true)
         }
-
+        
         if (!isLoaded) {
             getData()
         }
-
+        
     }, [isLoaded, dispatch, spotId])
-
-
-
-
+    
+    
     if (!isLoaded) {
         return <h1>Loading</h1>
     } else {
-
         return (
             <>
                 <div className="spot-details-card">
@@ -63,30 +65,20 @@ function SpotById() {
                                     return (
                                         <>
                                             <img key={`${img.id}--${idx}`} src={img.url} />
-
                                         </>
-
                                     )
-
                                 }
-
                             })}
                         </div>
                         <div className="sub-images-container">
                             {spot.SpotImages.map((img, idx) => {
                                 if (!img.preview) {
                                     return (
-
                                         <div key={`${img.id} -- ${idx}`} className="preview-img-by-id">
                                             <img src={img.url} />
                                         </div>
-
-
-
                                     )
-
                                 }
-
                             })}
                         </div>
 
@@ -124,16 +116,11 @@ function SpotById() {
                                     <a>{spot.aveReview ? `${spot.aveReview.toFixed(1)} Average - ${spot.Review.length} Reviews` : `New`}</a>
                                 </div>
                             </div>
-                            {sessionUser && sessionUser.id !== spot.userId && (
+                            { !userHasReview && (
                                 <>
-
                                     <div >
-
-
                                         <SubReview />
                                     </div>
-
-
                                 </>
 
                             )
