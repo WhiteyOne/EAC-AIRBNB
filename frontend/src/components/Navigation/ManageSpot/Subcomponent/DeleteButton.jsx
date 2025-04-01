@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { deleteSpotThunk } from '../../../../store/spot';
-import "./UserSPotCard.css"
+import "./UserSpotCard.css"
 
 
 function DeleteButton({spot}) {
